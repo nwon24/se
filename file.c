@@ -64,8 +64,9 @@ int get_nrow(char *file)
 void read_into_struct(char *file)
 {
 	win.numrows = get_nrow(file);
+	win.rows = malloc(sizeof(struct row) * win.numrows);
 	int i = 0;
-	while (i < win.numrows) {
+	while (i <= win.numrows) {
 		char *line = fgetline(file, i + 1);
 		win.rows[i].s = line;
 		win.rows[i].size = strlen(line);
