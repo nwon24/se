@@ -60,4 +60,3 @@ void row_to_buff(struct buffer *b)
 		i++;
 	}
 }
-
