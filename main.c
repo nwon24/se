@@ -25,5 +25,6 @@ int main(int argc, char *argv[])
 	process_key();
 	tty_revert();
 	write(1, "\033[2J", 4);
+	write(1, "\033[H", 3);
 	return 0;
 }
