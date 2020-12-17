@@ -1,8 +1,9 @@
 CC=gcc
 CFLAGS=-std=c99 -Wall -pedantic -O1
+TARGET=se
 
-edit: *.o
-	$(CC) *.o -o edit $(CFLAGS)
+$(TARGET): *.o
+	$(CC) *.o -o $(TARGET) $(CFLAGS)
 *.o: *.c
 	$(CC) *.c -c $(CFLAGS)
 clean:
