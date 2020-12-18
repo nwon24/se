@@ -8,6 +8,10 @@
 extern struct window win;
 extern struct buffer eb;
 
+/* Write to the buffer. The function is similar to the system call
+   write(). It appends specified string to b->s, which is the string containting
+   the contents of the buffer, before updating the size as well */
+   
 void bwrite(struct buffer *b, const char *s, int len)
 {
 	char *n = realloc(b->s, b->size + len);
@@ -17,6 +21,10 @@ void bwrite(struct buffer *b, const char *s, int len)
 	b->size += len;
 }
 
+/* Draws buffer. It first draws the tildes on the side, and then the status bar, before
+   actually displaying the text displayed in the array of row structs. TODO: There is an odd
+   flickering affect each time the screen is re-drawn. */
+   
 void drawb()
 {
 	eb.s = NULL;
@@ -45,6 +53,8 @@ void freeb(struct buffer *b)
 {
 	free(b->s);
 }
+
+/* status bar in inverted colours */
 	
 void status(struct buffer *b, char *s)
 {
@@ -60,6 +70,12 @@ void status(struct buffer *b, char *s)
 	bwrite(b, "\033[m", 3);
 }
 
+/* This function appends all the strings in the array
+   of structs to the buffer, to be written onto the screen.
+   TODO: At the moment, it only writes the first line, since
+   the get_nrows() function is faulty and incorrectly reports
+   the number of lines as 0 */
+   
 void row_to_buff(struct buffer *b)
 {
 	int i;

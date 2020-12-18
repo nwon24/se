@@ -34,6 +34,9 @@ char *fgetline(char *file, int pos)
 	return line;
 }
 
+/* The following function checks if a file exists and returns
+   exit success if it does */
+   
 int fexist(char *file)
 {
 	FILE *fp = fopen(file, "r");
@@ -45,6 +48,9 @@ int fexist(char *file)
 	}
 } 
 
+/* TODO: fix bug here. For some reason, calling this function does not
+   get correct number of rows in file. */
+   
 int get_nrow(char *file)
 {
 	int exist = fexist(file);
@@ -61,6 +67,11 @@ int get_nrow(char *file)
 	return nrows;
 }
 
+/* This function gets each line from the specified file and reads it into 
+   the array of structs in the struct win. Enough space is first allocated.
+   Bug here is related to above; since above function return number of rows as 0
+   this function only reads one line into file, so not all the file is displayed. */
+   
 void read_into_struct(char *file)
 {
 	get_nrow(file);
