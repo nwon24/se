@@ -7,4 +7,4 @@ $(TARGET): *.o
 *.o: *.c
 	$(CC) *.c -c $(CFLAGS)
 clean:
-	rm *.o edit
+	rm *.o se
