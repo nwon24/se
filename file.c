@@ -64,7 +64,10 @@ int get_nrow(char *file)
 			++nrows;;
 	}
 	fclose(fp);
-	return nrows;
+	return ++nrows; /* We increment nrows once more since the final
+                         * line of text does not contain a newline character
+                         * buf is still a row in the file
+                         */
 }
 
 /* This function gets each line from the specified file and reads it into 
