@@ -7,29 +7,30 @@
 
 extern struct window win;
 
-/* read a single key and return it */
+/* read a single key and return it 
+ * Later this will be expanded to 
+ * handle different keys that are handled
+ * as escape sequences
+ */
 
-int readk(void)
+char readk(void)
 {
-	int c;
+	char c;
 	read(0, &c, 1);
 	return c;
 }
 
 /* Process the key returned in the above
  * function. At the moment, there are only statements
- * to change cursor position. TODO: For some reason, program
- * does not seem to be reading key presses correctly, with 'q'
- * not invoking the program exit, even though it is stated
- * explicitly below.
+ * to change cursor position. 
  */
 
-void process_key()
+void process_key(void)
 {
-	int c = readk();
+	char c = readk();
 	
 	switch (c) {
-	case 'q':
+	case CTRL('x'):
 		tty_revert();
 		write(1, "\033[2J", 4);
 		write(1, "\033[H", 3);
@@ -39,21 +40,27 @@ void process_key()
         /* In the following change cursor position statements,
          * precautions are taken to stop cursor moving off screen
          * (i.e. win.cx and win.cy cannot be less than 0
+         * Also, the final plan will be to implement both emacs-like
+         * and vim-like keybindings to move the cursor.
          */
         
+        case CTRL('f'):
 	case 'f':
 		win.cx++;
 		break;
+        case CTRL('b'):
 	case 'd':
 		if (win.cx == 0)
 			break;
 		win.cx--;
 		break;
+        case CTRL('p'):
 	case 'k':
 		if (win.cy == 0)
 			break;
 		win.cy--;
 		break;
+        case CTRL('n'):
 	case 'j':
 		win.cy++;
 		break;

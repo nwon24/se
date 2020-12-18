@@ -5,5 +5,5 @@
 #define CTRL(key) ((key) & 0x1f)
 #endif
 
-int readk(void);
-void process_key();
+char readk(void);
+void process_key(void);
