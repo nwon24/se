@@ -26,5 +26,6 @@ int main(int argc, char *argv[])
 	tty_revert();
 	write(1, "\033[2J", 4);
 	write(1, "\033[H", 3);
+	printf("%d\n", win.numrows);
 	return 0;
 }

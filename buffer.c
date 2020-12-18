@@ -21,7 +21,7 @@ void drawb()
 {
 	eb.s = NULL;
 	eb.size = 0;
-	for (int i = 0; i < 100; i++)
+	for (int i = 0; i < win.ncol; i++)
 		bwrite(&eb, "~\r\n", 3);
 	status(&eb, win.fname);
 	char buf[32];
@@ -30,7 +30,7 @@ void drawb()
 	read_into_struct(win.fname);
 	row_to_buff(&eb);
 	write(1, eb.s, eb.size);
-	freeb(&eb);
+	freeb(&eb); 
 }
 
 void freeb(struct buffer *b)
@@ -57,6 +57,7 @@ void row_to_buff(struct buffer *b)
 	int i;
 	for (i = 0; i <= win.numrows; i++) {
 		bwrite(b, win.rows[i].s, win.rows[i].size);
+		bwrite(b, "\r\n", 2);
 		i++;
 	}
 }
