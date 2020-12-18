@@ -10,6 +10,9 @@ extern struct window win;
 
 int main(int argc, char *argv[])
 {
+        /* For now, we say that the program must be invoked with
+         * the name of an existing file */
+        
 	if (argc < 2) {
 		printf("No file specified.\n");
 		exit(1);

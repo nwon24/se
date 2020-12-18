@@ -17,15 +17,25 @@ void tty_raw(void)
 	ntty.c_lflag &= ~(ISIG | ICANON | ECHO | IEXTEN);
 	ntty.c_oflag &= ~(OPOST | ONLCR | OCRNL);
 
-	ntty.c_cc[VMIN] = 1;
-	ntty.c_cc[VTIME] = 0;
+	ntty.c_cc[VMIN] = 0;
+	ntty.c_cc[VTIME] = 1;
 	tcsetattr(0, TCSAFLUSH, &ntty);
 }
+
+/* revert terminal settings so user has normal terminal
+ * experience on program exit.
+ */
 
 void tty_revert(void)
 {
 	tcsetattr(0, TCSAFLUSH, &otty);
 }
+
+/* This function gets terminal dimensions in terms of
+ * number of rows and number of columns. This should work
+ * on most terminals. Uses ioctl. Arguments are passed by reference
+ * so that struct members nrow and ncol can be modified directly
+ */
 
 void tty_dimensions(int *r, int *c)
 {
