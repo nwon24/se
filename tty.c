@@ -13,6 +13,7 @@ void tty_raw(void)
 	tcgetattr(0, &otty);
 	ntty = otty; /* initialise ntty so we can change its flags */
 
+	/* turn off flags to get into 'raw' mode */
 	ntty.c_iflag &= ~(IGNBRK | BRKINT | IGNPAR | PARMRK | INPCK | INLCR | IGNCR | ICRNL | IXON);
 	ntty.c_lflag &= ~(ISIG | ICANON | ECHO | IEXTEN);
 	ntty.c_oflag &= ~(OPOST | ONLCR | OCRNL);
