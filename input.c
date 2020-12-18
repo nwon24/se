@@ -3,7 +3,7 @@
 
 #include "tty.h"
 #include "input.h"
-#include "estruct.h"
+#include "edit.h"
 
 extern struct window win;
 
@@ -41,11 +41,13 @@ void process_key(void)
          * precautions are taken to stop cursor moving off screen
          * (i.e. win.cx and win.cy cannot be less than 0
          * Also, the final plan will be to implement both emacs-like
-         * and vim-like keybindings to move the cursor.
+         * and vim-like keybindings to move the cursor. (No arrow keys!)
          */
         
         case CTRL('f'):
 	case 'f':
+		if (win.cx == win.rows[win.cy].size)
+			break;
 		win.cx++;
 		break;
         case CTRL('b'):
@@ -62,10 +64,13 @@ void process_key(void)
 		break;
         case CTRL('n'):
 	case 'j':
+		if (win.cy == win.numrows)
+			break;
 		win.cy++;
 		break;
 	default:
-		/* Don't do anything for now */
+		/* Default is to insert char */
+		insert_char(&win.rows[win.cy], win.cx, c);
 		break;
 	}
 }
