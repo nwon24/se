@@ -1,7 +1,23 @@
+/* estruct.h
+ * This file defines core structs for the editor.
+ * The struct window contains variables such as
+ * filename, number of columsn/rows in terminal,
+ * number of rows in file, and also cursor position.
+ * It also contains an array of row structs, which each
+ * contain a string, representing the text in that row,
+ * and also the size. This array of row structs is displayed
+ * onto the buffer in buffer.c, thus rendering the contents
+ * of the file.
+ */
+
 struct window {
 	int cx, cy;
 	char *fname; /* file name */
-	int nsaved;
+	int nsaved; /* if this is equal to 1, then file has been changed
+                     * but not saved. Eventually, this will cause an
+                     * asterix to appear on the status bar next to the
+                     * file name
+                     */
 	int ncol, nrow;
 	struct row *rows;
 	int numrows;
