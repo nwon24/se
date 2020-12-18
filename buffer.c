@@ -21,14 +21,22 @@ void drawb()
 {
 	eb.s = NULL;
 	eb.size = 0;
-	for (int i = 0; i < win.ncol; i++)
-		bwrite(&eb, "~\r\n", 3);
+	bwrite(&eb, "\033[?25l", 6);
+	bwrite(&eb, "\033[H", 3);
+	
+	for (int i = 0; i < win.ncol; i++) {
+		bwrite(&eb, "~", 1);
+		bwrite(&eb, "\033[K", 3);
+		bwrite(&eb, "\r\n", 2);
+	}
 	status(&eb, win.fname);
-	char buf[32];
-	snprintf(buf, sizeof(buf), "\033[%d;%dH", win.cx + 1, win.cy + 1);
-	bwrite(&eb, buf, 6); 
+	bwrite(&eb, "\033[H", 3);
 	read_into_struct(win.fname);
 	row_to_buff(&eb);
+	char buf[32];
+	snprintf(buf, sizeof(buf), "\033[%d;%dH", win.cy + 1, win.cx + 1);
+	bwrite(&eb, buf, strlen(buf)); 	
+	bwrite(&eb, "\033[?25h", 6); 
 	write(1, eb.s, eb.size);
 	freeb(&eb); 
 }
@@ -61,3 +69,4 @@ void row_to_buff(struct buffer *b)
 		i++;
 	}
 }
+

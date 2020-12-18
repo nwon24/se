@@ -19,12 +19,12 @@ void tty_raw(void)
 
 	ntty.c_cc[VMIN] = 1;
 	ntty.c_cc[VTIME] = 0;
-	tcsetattr(0, TCSADRAIN, &ntty);
+	tcsetattr(0, TCSAFLUSH, &ntty);
 }
 
 void tty_revert(void)
 {
-	tcsetattr(0, TCSADRAIN, &otty);
+	tcsetattr(0, TCSAFLUSH, &otty);
 }
 
 void tty_dimensions(int *r, int *c)
