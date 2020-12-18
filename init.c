@@ -4,6 +4,10 @@
 
 extern struct window win;
 
+/* function intialises win struct defined
+ * in "estruct.h"
+ */
+
 void init(char *name)
 {
 	win.cx = 0;
