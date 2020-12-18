@@ -1,5 +1,5 @@
 /* main.c
-   A simple text editor */
+   A simple text editor written in C */
 
 #include "estruct.h"
 #include "tty.h"
