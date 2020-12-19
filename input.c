@@ -68,9 +68,17 @@ void process_key(void)
 			break;
 		win.cy++;
 		break;
+	case 127:
+		del_char(&win.rows[win.cy], win.cx - 1);
+		win.cx--;
+		break;
+	case CTRL('w'):
+		write_to_disk(win.fname);
+		break;
 	default:
 		/* Default is to insert char */
 		insert_char(&win.rows[win.cy], win.cx, c);
+		win.cx++;
 		break;
 	}
 }
