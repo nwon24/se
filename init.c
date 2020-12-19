@@ -14,4 +14,5 @@ void init(char *name)
 	win.cy = 0;
 	win.fname = name;
 	tty_dimensions(&win.nrow, &win.ncol); 
+	win.rfile = 1;
 }
