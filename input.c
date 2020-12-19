@@ -64,7 +64,7 @@ void process_key(void)
 		break;
         case CTRL('n'):
 	case 'j':
-		if (win.cy == win.numrows)
+		if (win.cy == win.numrows - 1)
 			break;
 		win.cy++;
 		break;
