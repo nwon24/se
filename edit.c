@@ -45,8 +45,3 @@ void del_char(struct row *erow, int pos, char c)
 	
 	erow->s = realloc(erow->s, erow->size);
 }
-            
-              
-        
-    
-    
