@@ -45,29 +45,26 @@ void process_key(void)
          */
         
         case CTRL('f'):
-	case 'f':
 		if (win.cx == win.rows[win.cy].size)
 			break;
 		win.cx++;
 		break;
         case CTRL('b'):
-	case 'd':
 		if (win.cx == 0)
 			break;
 		win.cx--;
 		break;
         case CTRL('p'):
-	case 'k':
 		if (win.cy == 0)
 			break;
 		win.cy--;
 		break;
         case CTRL('n'):
-	case 'j':
 		if (win.cy == win.numrows - 1)
 			break;
 		win.cy++;
 		break;
+	case CTRL('d'):
 	case 127:
 		del_char(&win.rows[win.cy], win.cx - 1);
 		win.cx--;
@@ -75,6 +72,12 @@ void process_key(void)
 	case CTRL('w'):
 		write_to_disk(win.fname);
 		break;
+	case 13:
+		new_line(" ", 2, win.cy);
+		win.cx = 0;
+		win.cy++;		
+		break;
+		
 	default:
 		/* Default is to insert char */
 		insert_char(&win.rows[win.cy], win.cx, c);
