@@ -20,7 +20,12 @@ struct window {
                      */
 	int ncol, nrow;
 	struct row *rows;
-	int numrows;
+	int numrows; /* the number of rows in the file */
+	int rfile; /* This flag indicates whether we should be
+		      reading from the file or not, so we only do it
+		      once. If we read from the file each time we refreshed
+		      the screen, we would not be able to implement any
+		      insertion or deletion of files */
 };
 
 struct row {
