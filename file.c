@@ -25,10 +25,10 @@ char *fgetline(char *file, int pos)
 	while ((c = getc(fp)) != '\n') {
 		line[i] = c;
 		++i;
-		line = realloc(line, sizeof(line) + 1);
+		line = realloc(line, i + 1);
 	}		
 		
-	line = realloc(line, sizeof(line) + 1);
+	line = realloc(line, i + 1);
 	line[i] = '\0';
 	fclose(fp);
 	return line;
@@ -41,7 +41,7 @@ int fexist(char *file)
 {
 	FILE *fp = fopen(file, "r");
 	if (fp == NULL) {
-		return 1;
+		return 1; 
 	} else {
 		fclose(fp);
 		return 0;
@@ -53,9 +53,6 @@ int fexist(char *file)
    
 int get_nrow(char *file)
 {
-	int exist = fexist(file);
-	if (exist == 1)
-		return 0;
 	FILE *fp = fopen(file, "r");
 	int c;
 	int nrows = 0;
@@ -64,10 +61,7 @@ int get_nrow(char *file)
 			++nrows;;
 	}
 	fclose(fp);
-	return ++nrows; /* We increment nrows once more since the final
-                         * line of text does not contain a newline character
-                         * buf is still a row in the file
-                         */
+	return nrows;
 }
 
 /* This function gets each line from the specified file and reads it into 
@@ -77,10 +71,10 @@ int get_nrow(char *file)
    
 void read_into_struct(char *file)
 {
-	get_nrow(file);
+	win.numrows = get_nrow(file);
 	win.rows = malloc(sizeof(struct row) * win.numrows);
 	int i = 0;
-	while (i <= win.numrows) {
+	while (i <= (win.numrows - 1)) {
 		char *line = fgetline(file, i + 1);
 		win.rows[i].s = malloc(sizeof(line));
 		win.rows[i].s = line;
