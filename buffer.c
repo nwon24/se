@@ -31,7 +31,7 @@ void drawb()
 	eb.size = 0;
 	bwrite(&eb, "\033[?25l", 6);
 	bwrite(&eb, "\033[H", 3);
-	
+
 	for (int i = 0; i < win.ncol; i++) {
 		bwrite(&eb, "~", 1);
 		bwrite(&eb, "\033[K", 3);
@@ -39,7 +39,12 @@ void drawb()
 	}
 	status(&eb, win.fname);
 	bwrite(&eb, "\033[H", 3);
-	read_into_struct(win.fname);
+	
+	/* check if we should be reading from the file */
+	if (win.rfile == 1) {
+		read_into_struct(win.fname);
+		win.rfile = 0;
+	}
 	row_to_buff(&eb);
 	char buf[32];
 	snprintf(buf, sizeof(buf), "\033[%d;%dH", win.cy + 1, win.cx + 1);
