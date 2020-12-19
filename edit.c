@@ -12,8 +12,16 @@ extern struct window win;
 
 void insert_char(struct row *erow, int pos, char c)
 {
-	/* First, we need to allocate enough memory */
-	erow->s = realloc(erow->s, erow->size + 2);
+	/* First, we need to allocate enough memory 
+	   Instead of just calling realloc(), we copy
+	   the string into a temp variable and the use
+	   malloc instead. Using realloc can lead to 
+	   invalid pointer errors once we initialise new
+	   rows */
+	char *tmp = malloc(erow->size);
+	strcpy(tmp, erow->s);
+	erow->s = malloc(erow->size + 2);
+	strcpy(erow->s, tmp);
 	int i;
 	
 	/* Now we loop backwards over the string to shift
@@ -70,4 +78,51 @@ void write_to_disk(char *name)
 		fputs("\n", fp);
 	}
 	fclose(fp);
+}
+
+void new_line(char *s, size_t len, int pos)
+{
+	win.rows = realloc(win.rows, sizeof(struct row) * (win.numrows + 1));
+	
+	/* To insert a row struct in the array, we do a similar thing to the
+	   insert char above: we loop over the array, shifitng everything from
+	   position pos up, freeing a position for the new row struct. The procedure
+	   is slightly more complicated becasue we have to reallocate memory and copy
+	   the strings over. */
+
+		   
+	int i;
+	for (i = win.numrows; i > pos; i--) {
+		win.rows[i].s = realloc(win.rows[i].s, win.rows[i - 1].size);
+		memmove(&win.rows[i].s, &win.rows[i - 1].s, win.rows[i - 1].size);
+		win.rows[i].size = win.rows[i - 1].size;
+	}
+	win.rows[pos].s = realloc(win.rows[pos].s, len);
+	win.rows[pos].s = s;
+	win.rows[pos].size = len;
+	win.numrows++;
+} 
+
+/* This function will split a row into two,
+   which we use to handle the enter key when the 
+   cursor is in the middle of a line. */
+   
+char *split_line(struct row *erow, int pos)
+{
+	/* Allocate enough memory for the split string */
+	char *split = malloc(erow->size - pos);	
+
+	/* copy over the characters from pos to end */
+	int a = 0; /* just a counter */
+	for (int i = pos; i < erow->size; i++) {
+		split[a] = erow->s[i];
+		a++;
+	}
+
+	/* update members of now split row */
+	erow->s = realloc(erow->s, pos);
+	erow->s[pos] = '\0';
+	erow-> size = pos - 1;
+	split[a] = '\0';
+	return split;
 }
