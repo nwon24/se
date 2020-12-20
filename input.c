@@ -73,10 +73,20 @@ void process_key(void)
 		write_to_disk(win.fname);
 		break;
 	case 13:
-		new_line(" ", 2, win.cy);
-		win.cx = 0;
-		win.cy++;		
-		break;
+		if (win.cx == 0) {
+			new_line(" ", 2, win.cy);
+			win.cx = 0;
+			win.cy++;
+			break;
+		} else {
+			char *line = split_line(&win.rows[win.cy], win.cx);
+			printf("%s\r\n", line);
+			new_line(line, sizeof(line), win.cy);
+			win.cx = 0;
+			win.cy++;
+			break;
+		}
+
 		
 	default:
 		/* Default is to insert char */
