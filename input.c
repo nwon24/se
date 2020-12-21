@@ -80,7 +80,6 @@ void process_key(void)
 			break;
 		} else {
 			char *line = split_line(&win.rows[win.cy], win.cx);
-			printf("%s\r\n", line);
 			new_line(line, sizeof(line), win.cy);
 			win.cx = 0;
 			win.cy++;
