@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-std=c99 -Wall -pedantic -O1
+CFLAGS=-std=c99 -Wall -pedantic -O1 -fcommon
 TARGET=se
 
 $(TARGET): *.o
