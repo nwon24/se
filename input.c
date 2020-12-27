@@ -45,13 +45,28 @@ void process_key(void)
          */
         
         case CTRL('f'):
-		if (win.cx == win.rows[win.cy].size)
+
+		/* The following if statement allows cursor to move to next line
+		 * at end of current one
+		 */
+
+		if (win.cx == win.rows[win.cy].size && win.cy != win.numrows) {
+			win.cy++;
+			win.cx = 0;
 			break;
+		} else if (win.cy == win.numrows) {
+			break;
+		}
 		win.cx++;
 		break;
         case CTRL('b'):
-		if (win.cx == 0)
+		if (win.cx == 0 && win.cy != 0) {
+			win.cy--;
+			win.cx = win.rows[win.cy].size;
 			break;
+		} else if (win.cy == 0 && win.cx == 0) {
+			break;
+		}
 		win.cx--;
 		break;
         case CTRL('p'):
@@ -86,7 +101,8 @@ void process_key(void)
 			break;
 		}
 
-		
+	case 0:
+		break;
 	default:
 		/* Default is to insert char */
 		insert_char(&win.rows[win.cy], win.cx, c);
