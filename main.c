@@ -25,6 +25,9 @@ int main(int argc, char *argv[])
 	tty_raw();
 	init(argv[1]);
 	while (1) {
+		/* Get terminal dimensions every time we enter
+		 * loop, since user may have resized window */
+		tty_dimensions(&win.nrow, &win.ncol);
 		drawb();
 		process_key();
 	}
