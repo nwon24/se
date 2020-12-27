@@ -18,8 +18,8 @@ void tty_raw(void)
 	ntty.c_lflag &= ~(ISIG | ICANON | ECHO | IEXTEN);
 	ntty.c_oflag &= ~(OPOST | ONLCR | OCRNL);
 
-	ntty.c_cc[VMIN] = 1;
-	ntty.c_cc[VTIME] = 0;
+	ntty.c_cc[VMIN] = 0;
+	ntty.c_cc[VTIME] = 1;
 	tcsetattr(0, TCSAFLUSH, &ntty);
 }
 
