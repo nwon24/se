@@ -36,7 +36,11 @@ void drawb()
 		bwrite(&eb, "\033[K", 3);
 		bwrite(&eb, "\r\n", 2);
 	}
-	status(&eb, win.fname);
+
+	if (win.nsaved == 1)
+		status(&eb, "%s*", win.fname);
+	else
+		status(&eb, "%s", win.fname);
 	bwrite(&eb, "\033[H", 3);
 	/* check if we should be reading from the file */
 	if (win.rfile == 1) {
@@ -59,11 +63,13 @@ void freeb(struct buffer *b)
 
 /* status bar in inverted colours */
 	
-void status(struct buffer *b, char *s)
+void status(struct buffer *b, const char *s, ... )
 {
+	va_list args;
+	va_start(args, s);
 	bwrite(b, "\033[7m", 4);
 	char status[80];
-	int len = snprintf(status, sizeof(status), "%s", s);
+	int len = vsnprintf(status, sizeof(status), s, args);
 	if (len > win.ncol) len = win.nrow;
 	bwrite(b, status, len); 
 	while (len < win.ncol) {
