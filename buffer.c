@@ -43,9 +43,8 @@ void drawb()
 		status(&eb, "%s", win.fname);
 	bwrite(&eb, "\033[H", 3);
 	/* check if we should be reading from the file */
-	if (win.rfile == 1) {
+	if (win.rfile == 1 && win.nfile == 0) {
 		read_into_struct(win.fname);
-		win.rfile = 0;
 	}
 	row_to_buff(&eb);
 	char buf[32];

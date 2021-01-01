@@ -9,6 +9,7 @@
 
 extern struct window win;
 extern struct buffer eb;
+extern struct stat fs;
 
 char *fgetline(char *file, int pos)
 {
@@ -39,14 +40,12 @@ char *fgetline(char *file, int pos)
    
 int fexist(char *file)
 {
-	FILE *fp = fopen(file, "r");
-	if (fp == NULL) {
-		return 1; 
-	} else {
-		fclose(fp);
+	int exist = stat(file, &fs);
+	if (exist == 0)
 		return 0;
-	}
-} 
+	else
+		return 1;
+}
 
 /* TODO: fix bug here. For some reason, calling this function does not
    get correct number of rows in file. */
@@ -81,4 +80,17 @@ void read_into_struct(char *file)
 		win.rows[i].size = strlen(line);
 		i++;
 	}
+}
+
+/* The following file initialises a new file
+  It is used if user calls program with file that
+ does not exist yet */
+
+void init_file()
+{
+	win.numrows = 1;
+	win.rows = malloc(sizeof(struct row));
+	win.rows[0].s = " ";
+	win.rows[0].size = 1;
+	win.nfile = 1;
 }

@@ -5,6 +5,7 @@
 #include "tty.h"
 #include "input.h"
 #include "buffer.h"
+#include "file.h"
 
 extern struct window win;
 
@@ -24,6 +25,12 @@ int main(int argc, char *argv[])
 	}
 	tty_raw();
 	init(argv[1]);
+	int exist = fexist(win.fname);
+	if (exist == 1) {
+		init_file();
+	}
+	goto loop;
+loop:
 	while (1) {
 		/* Get terminal dimensions every time we enter
 		 * loop, since user may have resized window */
@@ -31,8 +38,5 @@ int main(int argc, char *argv[])
 		drawb();
 		process_key();
 	}
-	tty_revert();
-	write(1, "\033[2J", 4);
-	write(1, "\033[H", 3);
 	return 0;
 }
