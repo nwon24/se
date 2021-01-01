@@ -34,6 +34,7 @@ void insert_char(struct row *erow, int pos, char c)
 	erow->s[pos] = c;
 	erow->size++;
 	erow->s[erow->size] = '\0'; /* reinsert terminating char */
+	win.nsaved = 1;
 }
 
 void del_char(struct row *erow, int pos)
@@ -54,6 +55,7 @@ void del_char(struct row *erow, int pos)
 	 */
 	
 	erow->s = realloc(erow->s, erow->size);
+	win.nsaved = 1;
 }
 
 /* This function writes the contents of the array
@@ -78,6 +80,7 @@ void write_to_disk(char *name)
 		fputs("\n", fp);
 	}
 	fclose(fp);
+	win.nsaved = 0;
 }
 
 void new_line(char *s, size_t len, int pos)
