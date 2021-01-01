@@ -101,7 +101,7 @@ void process_key(void)
 			break;
 		}
 
-	case 0:
+	case '\0':
 		break;
 	default:
 		/* Default is to insert char */
