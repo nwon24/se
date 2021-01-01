@@ -95,9 +95,9 @@ void process_key(void)
 			break;
 		} else {
 			char *line = split_line(&win.rows[win.cy], win.cx);
+			win.cy++;
 			new_line(line, sizeof(line), win.cy);
 			win.cx = 0;
-			win.cy++;
 			break;
 		}
 
