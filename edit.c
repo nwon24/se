@@ -93,7 +93,6 @@ void new_line(char *s, size_t len, int pos)
 	   is slightly more complicated becasue we have to reallocate memory and copy
 	   the strings over. */
 
-		   
 	int i;
 	for (i = win.numrows; i > pos; i--) {
 		win.rows[i].s = realloc(win.rows[i].s, win.rows[i - 1].size);
@@ -113,7 +112,7 @@ void new_line(char *s, size_t len, int pos)
 char *split_line(struct row *erow, int pos)
 {
 	/* Allocate enough memory for the split string */
-	char *split = malloc(erow->size - pos);	
+	char *split = malloc(erow->size - pos + 1);
 
 	/* copy over the characters from pos to end */
 	int a = 0; /* just a counter */
@@ -124,8 +123,7 @@ char *split_line(struct row *erow, int pos)
 
 	/* update members of now split row */
 	erow->s = realloc(erow->s, pos);
-	erow->s[pos] = '\0';
-	erow-> size = pos - 1;
+	erow->size = pos;
 	split[a] = '\0';
 	return split;
 }
