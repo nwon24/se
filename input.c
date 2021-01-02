@@ -5,6 +5,10 @@
 #include "input.h"
 #include "edit.h"
 
+#ifndef TAB_SIZE
+#define TAB_SIZE 8
+#endif
+
 extern struct window win;
 
 /* read a single key and return it 
@@ -110,12 +114,16 @@ void process_key(void)
 		} else {
 			char *line = split_line(&win.rows[win.cy], win.cx);
 			win.cy++;
-			new_line(line, sizeof(line), win.cy);
+			new_line(line, strlen(line), win.cy);
 			win.cx = 0;
 			break;
 		}
 
 	case '\0':
+		break;
+	case '\t':
+		insert_char(&win.rows[win.cy], win.cx, '\t');
+		win.cx += TAB_SIZE - 1;
 		break;
 	default:
 		/* Default is to insert char */
