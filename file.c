@@ -80,6 +80,7 @@ void read_into_struct(char *file)
 		win.rows[i].size = strlen(line);
 		i++;
 	}
+	win.rfile = 0;
 }
 
 /* The following file initialises a new file
