@@ -81,9 +81,23 @@ void process_key(void)
 		break;
 	case CTRL('d'):
 	case 127:
-		del_char(&win.rows[win.cy], win.cx - 1);
-		win.cx--;
-		break;
+		if (win.cx == 0 && win.cy == 0) {
+			break;
+		} else if (win.cx == 0 && win.cy != 0) {
+			char *tmp = malloc(win.rows[win.cy].size);
+			strcpy(tmp, win.rows[win.cy].s);
+			del_line(win.cy);
+			win.cy--;
+			win.rows[win.cy].s = realloc(win.rows[win.cy].s, win.rows[win.cy].size + strlen(tmp));
+			strcat(win.rows[win.cy].s, tmp);
+			win.rows[win.cy].size += strlen(tmp);
+			win.cx = win.rows[win.cy].size;
+			break;
+		} else {
+			del_char(&win.rows[win.cy], win.cx - 1);
+			win.cx--;
+			break;
+		}
 	case CTRL('w'):
 		write_to_disk(win.fname);
 		break;
