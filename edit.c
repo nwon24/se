@@ -124,6 +124,21 @@ char *split_line(struct row *erow, int pos)
 	/* update members of now split row */
 	erow->s = realloc(erow->s, pos);
 	erow->size = pos;
+	erow->s[pos] = '\0';
 	split[a] = '\0';
 	return split;
+}
+
+/* The following function deletes a line at a given position */
+void del_line(int pos)
+{
+	int i;
+	for (i = pos; i < win.numrows - 1; i++) {
+		win.rows[i].s = realloc(win.rows[i].s, win.rows[i + 1].size);
+		win.rows[i].s = win.rows[i + 1].s;
+		win.rows[i].size = win.rows[i + 1].size;
+	}
+
+	win.rows = realloc(win.rows, sizeof(struct row) * (win.numrows - 1));
+	win.numrows--;
 }
