@@ -142,3 +142,20 @@ void del_line(int pos)
 	win.rows = realloc(win.rows, sizeof(struct row) * (win.numrows - 1));
 	win.numrows--;
 }
+
+/* This function appends a new line to the array or row structs. We use a different
+   function to the new line function above as it is easier to implement and debug if
+   there are issues like seg faults */
+
+void append_line(char *s)
+{
+	/* First, we allocate more memory */
+	win.rows = realloc(win.rows, sizeof(struct row) * (win.numrows + 1));
+
+	/* Then we simply set the new row's properties accordingly and update
+           the numrows counter */
+
+	win.rows[win.numrows].s = s;
+	win.rows[win.numrows].size = strlen(s);
+	win.numrows++;
+}
