@@ -27,6 +27,7 @@ struct window {
 		      the screen, we would not be able to implement any
 		      insertion or deletion of files */
 	int nfile; /* This flag indicates if it is a new file */
+	int rowoff; /* Row offset, to use for scrolling */
 };
 
 struct row {
