@@ -94,7 +94,7 @@ void new_line(char *s, size_t len, int pos)
 	   the strings over. */
 
 	int i;
-	for (i = win.numrows; i > pos; i--) {
+	for (i = win.numrows - 1; i > pos; i--) {
 		win.rows[i].s = realloc(win.rows[i].s, win.rows[i - 1].size);
 		memmove(&win.rows[i].s, &win.rows[i - 1].s, win.rows[i - 1].size);
 		win.rows[i].size = win.rows[i - 1].size;
