@@ -83,6 +83,12 @@ void process_key(void)
 			break;
 		win.cy++;
 		break;
+	case CTRL('e'):
+		win.cx = win.rows[win.cy].size;
+		break;
+	case CTRL('a'):
+		win.cx = 0;
+		break;
 	case CTRL('d'):
 	case 127:
 		if (win.cx == 0 && win.cy == 0) {
