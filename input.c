@@ -74,15 +74,25 @@ void process_key(void)
 		win.cx--;
 		break;
         case CTRL('p'):
-		if (win.cy == 0)
+		if (win.cy == 0 && win.rowoff > 0) {
+			win.rowoff--;
 			break;
-		win.cy--;
-		break;
+		} else if (win.cy == 0 && win.rowoff == 0) {
+			break;
+		} else {
+			win.cy--;
+			break;
+		}
         case CTRL('n'):
-		if (win.cy == win.numrows - 1)
+		if (win.cy == win.numrows - 1) {
 			break;
-		win.cy++;
-		break;
+		} else if (win.cy < win.numrows && win.cy == win.nrow) {
+			win.rowoff++;
+			break;
+		} else {
+			win.cy++;
+			break;
+		}
 	case CTRL('e'):
 		win.cx = win.rows[win.cy].size;
 		break;
