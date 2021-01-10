@@ -15,4 +15,5 @@ void init(char *name)
 	win.fname = name;
 	tty_dimensions(&win.nrow, &win.ncol); 
 	win.rfile = 1;
+	win.rowoff = 0;
 }
