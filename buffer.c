@@ -87,7 +87,7 @@ void status(struct buffer *b, const char *s, ... )
 void row_to_buff(struct buffer *b)
 {
 	int i;
-	for (i = 0; i <= win.numrows - 1; i++) {
+	for (i = win.rowoff; i <= win.numrows - 1; i++) {
 		bwrite(b, win.rows[i].s, win.rows[i].size);
 		bwrite(b, "\r\n", 2);
 	}
