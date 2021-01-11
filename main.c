@@ -35,7 +35,7 @@ loop:
 		/* Get terminal dimensions every time we enter
 		 * loop, since user may have resized window */
 		tty_dimensions(&win.nrow, &win.ncol);
-		drawb();
+		drawb(win.next_stat_msg);
 		process_key();
 	}
 	return 0;
