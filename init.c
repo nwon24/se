@@ -16,4 +16,5 @@ void init(char *name)
 	tty_dimensions(&win.nrow, &win.ncol); 
 	win.rfile = 1;
 	win.rowoff = 0;
+	win.next_stat_msg = name;
 }
