@@ -13,3 +13,4 @@
 
 char readk(void);
 void process_key(void);
+char status_input(void);
