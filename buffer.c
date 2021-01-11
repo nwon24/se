@@ -25,7 +25,7 @@ void bwrite(struct buffer *b, const char *s, int len)
    actually displaying the text displayed in the array of row structs. TODO: There is an odd
    flickering affect each time the screen is re-drawn. */
    
-void drawb()
+void drawb(char *status_msg)
 {
 	eb.s = NULL;
 	eb.size = 0;
@@ -37,10 +37,9 @@ void drawb()
 		bwrite(&eb, "\r\n", 2);
 	}
 
-	if (win.nsaved == 1)
-		status(&eb, "%s*", win.fname);
-	else
-		status(&eb, "%s", win.fname);
+	if (win.nsaved == 1 && status_msg == win.fname)
+		strcat(status_msg, "*");
+	status(&eb, "%s", status_msg);
 	bwrite(&eb, "\033[H", 3);
 	/* check if we should be reading from the file */
 	if (win.rfile == 1 && win.nfile == 0) {
