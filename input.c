@@ -33,7 +33,7 @@ void process_key(void)
 {
 	char c = readk();
 	if (win.status_mode == 1) {
-		status_input();
+		nsaved_message();
 	} else {
 		switch (c) {
 		case CTRL('x'):
@@ -188,4 +188,21 @@ char status_input()
 	s[1] = '\0';
 	strcat(win.next_stat_msg, s);
 	return c;
+}
+
+void nsaved_message()
+{
+	char c;
+	c = status_input();
+	if (c == 'Y' || c == 'y') {
+		tty_revert();
+		write(1, "\033[2J", 4);
+		write(1, "\033[H", 3);
+		exit(1); 
+	} else if (c == 'N' || c == 'n') {
+		win.cx = win.saved_cx;
+		win.cy = win.saved_cy;
+		win.next_stat_msg = win.fname;
+		win.status_mode = 0;
+	}
 }
