@@ -94,7 +94,7 @@ void process_key(void)
 		} else if (win.cy < win.numrows && win.cy == win.nrow) {
 			win.rowoff++;
 			break;
-		} else if (win.rows[win.cy + 1].size > win.rows[win.cy].size) {
+		} else if (win.rows[win.cy + 1].size < win.rows[win.cy].size && win.cy > win.rows[win.cy + 1].size) {
 			win.cy++;
 			win.cx = win.rows[win.cy].size;
 			break;
