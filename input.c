@@ -135,27 +135,33 @@ void process_key(void)
 				new_line(" ", 2, win.cy);
 				win.cx = 0;
 				win.cy++;
+				win.nsaved = 1;
 				break;
 			} else if (win.cy == win.numrows - 1 && win.cx == win.rows[win.cy].size) {
 				append_line(" ");
 				win.cx = 0;
 				win.cy++;
+				win.nsaved = 1;
+				break;
 			} else if (win.cx == win.rows[win.cy].size) {
 				new_line(" ", 2, win.cy + 1);
 				win.cy++;
 				win.cx = 0;
+				win.nsaved = 1;
 				break;
 			} else if (win.cy != win.numrows - 1) {
 				char *line = split_line(&win.rows[win.cy], win.cx);
 				win.cy++;
 				new_line(line, strlen(line), win.cy);
 				win.cx = 0;
+				win.nsaved = 1;
 				break;
 			} else {
 				char *line = split_line(&win.rows[win.cy], win.cx);
 				win.cy++;
 				append_line(line);
 				win.cx = 0;
+				win.nsaved = 1;
 				break;
 			}	
 		case '\0':
