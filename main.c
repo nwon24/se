@@ -9,6 +9,11 @@
 
 extern struct window win;
 
+void usage()
+{
+	printf("se - A simple text editor\nUSAGE: se [FILE]\nIf file specified does not exist, it will be created.\n");
+	exit(1);
+}
 int main(int argc, char *argv[])
 {
         /* For now, we say that the program must be invoked with
@@ -16,12 +21,12 @@ int main(int argc, char *argv[])
         
 	if (argc < 2) {
 		printf("No file specified.\n");
-		exit(1);
+		usage();
 	}
 
 	if (argc > 2) {
 		printf("Too many arguments.\n");
-		exit(1);
+		usage();
 	}
 	tty_raw();
 	init(argv[1]);
