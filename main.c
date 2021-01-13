@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 	tty_raw();
 	init(argv[1]);
 	int exist = fexist(win.fname);
-	if (exist == 1) {
+	if (exist) {
 		init_file();
 	}
 	goto loop;
