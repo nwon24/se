@@ -32,7 +32,7 @@ char readk(void)
 void process_key(void)
 {
 	char c = readk();
-	if (win.status_mode == 1) {
+	if (win.status_mode) {
 		nsaved_message();
 	} else {
 		switch (c) {
@@ -101,6 +101,10 @@ void process_key(void)
 			} else if (win.cy < win.numrows && win.cy == win.nrow) {
 				win.rowoff++;
 				break;
+			} else if (win.rows[win.cy + 1].size > win.rows[win.cy].size) {
+				win.cy++;
+				win.cx = win.rows[win.cy].size;
+				break;
 			} else {
 				win.cy++;
 				break;
@@ -143,6 +147,11 @@ void process_key(void)
 				append_line(" ");
 				win.cx = 0;
 				win.cy++;
+			} else if (win.cx == win.rows[win.cy].size) {
+				new_line(" ", 2, win.cy + 1);
+				win.cy++;
+				win.cx = 0;
+				break;
 			} else if (win.cy != win.numrows - 1) {
 				char *line = split_line(&win.rows[win.cy], win.cx);
 				win.cy++;
@@ -182,11 +191,10 @@ void process_key(void)
 char status_input()
 {
 	char c = readk();
-	/* We need to put c into strcat() as a string, so... */
-	char *s = malloc(2);
-	s[0] = c;
-	s[1] = '\0';
-	strcat(win.next_stat_msg, s);
+	int len = strlen(win.next_stat_msg);
+	win.next_stat_msg = realloc(win.next_stat_msg, len + 1);
+	win.next_stat_msg[len] = c;
+	win.next_stat_msg[len + 1] = '\0';
 	return c;
 }
 
