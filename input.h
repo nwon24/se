@@ -13,5 +13,3 @@
 
 char readk(void);
 void process_key(void);
-char status_input(void);
-void nsaved_message(void);

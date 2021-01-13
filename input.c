@@ -32,108 +32,101 @@ char readk(void)
 void process_key(void)
 {
 	char c = readk();
-	if (win.status_mode) {
-		nsaved_message();
-	} else {
-		switch (c) {
-		case CTRL('x'):
-			if (win.nsaved == 1) {
-				win.next_stat_msg = "File has unsaved changes. Quit? (Y/N)";
-				win.saved_cx = win.cx;
-				win.saved_cy = win.cy;
-				win.cx = win.nrow;
-				win.cy = strlen(win.next_stat_msg);
-				win.status_mode = 1;
-				break;
-			} else {
-				tty_revert();
-				write(1, "\033[2J", 4);
-				write(1, "\033[H", 3);
-				exit(0);
-				break;
-			}
-			
-		/* In the following change cursor position statements,
-		 * precautions are taken to stop cursor moving off screen
-		 * (i.e. win.cx and win.cy cannot be less than 0
-		 * Also, the final plan will be to implement both emacs-like
-		 * and vim-like keybindings to move the cursor. (No arrow keys!)
-		 */
+	switch (c) {
+	case CTRL('x'):
+		if (win.nsaved && win.status_mode != 1) {
+			win.next_stat_msg = "File has unsaved changes. Press CTRL-x again to quit.";
+			win.status_mode = 1;
+			break;
+		} else {
+			tty_revert();
+			write(1, "\033[2J", 4);
+			write(1, "\033[H", 3);
+			exit(0);
+			break;
+		}
 		
-		case CTRL('f'):
+	/* In the following change cursor position statements,
+	 * precautions are taken to stop cursor moving off screen
+	 * (i.e. win.cx and win.cy cannot be less than 0
+	 * Also, the final plan will be to implement both emacs-like
+	 * and vim-like keybindings to move the cursor. (No arrow keys!)
+	 */
+	
+	case CTRL('f'):
 
-			/* The following if statement allows cursor to move to next line
-			 * at end of current one
-			 */
+		/* The following if statement allows cursor to move to next line
+		 * at end of current one
+		 */
 
-			if (win.cx == win.rows[win.cy].size && win.cy != win.numrows) {
-				win.cy++;
-				win.cx = 0;
-				break;
-			} else if (win.cy == win.numrows) {
-				break;
-			}
-			win.cx++;
-			break;
-		case CTRL('b'):
-			if (win.cx == 0 && win.cy != 0) {
-				win.cy--;
-				win.cx = win.rows[win.cy].size;
-				break;
-			} else if (win.cy == 0 && win.cx == 0) {
-				break;
-			}
-			win.cx--;
-			break;
-		case CTRL('p'):
-			if (win.cy == 0 && win.rowoff > 0) {
-				win.rowoff--;
-				break;
-			} else if (win.cy == 0 && win.rowoff == 0) {
-				break;
-			} else {
-				win.cy--;
-				break;
-			}
-		case CTRL('n'):
-			if (win.cy == win.numrows - 1) {
-				break;
-			} else if (win.cy < win.numrows && win.cy == win.nrow) {
-				win.rowoff++;
-				break;
-			} else if (win.rows[win.cy + 1].size > win.rows[win.cy].size) {
-				win.cy++;
-				win.cx = win.rows[win.cy].size;
-				break;
-			} else {
-				win.cy++;
-				break;
-			}
-		case CTRL('e'):
-			win.cx = win.rows[win.cy].size;
-			break;
-		case CTRL('a'):
+		if (win.cx == win.rows[win.cy].size && win.cy != win.numrows) {
+			win.cy++;
 			win.cx = 0;
 			break;
-		case CTRL('d'):
-		case 127:
-			if (win.cx == 0 && win.cy == 0) {
-				break;
-			} else if (win.cx == 0 && win.cy != 0) {
-				char *tmp = malloc(win.rows[win.cy].size);
-				strcpy(tmp, win.rows[win.cy].s);
-				del_line(win.cy);
-				win.cy--;
-				win.rows[win.cy].s = realloc(win.rows[win.cy].s, win.rows[win.cy].size + strlen(tmp));
-				strcat(win.rows[win.cy].s, tmp);
-				win.rows[win.cy].size += strlen(tmp);
-				win.cx = win.rows[win.cy].size;
-				break;
-			} else {
-				del_char(&win.rows[win.cy], win.cx - 1);
-				win.cx--;
-				break;
-			}
+		} else if (win.cy == win.numrows) {
+			break;
+		}
+		win.cx++;
+		break;
+	case CTRL('b'):
+		if (win.cx == 0 && win.cy != 0) {
+			win.cy--;
+			win.cx = win.rows[win.cy].size;
+			break;
+		} else if (win.cy == 0 && win.cx == 0) {
+			break;
+		}
+		win.cx--;
+		break;
+	case CTRL('p'):
+		if (win.cy == 0 && win.rowoff > 0) {
+			win.rowoff--;
+			break;
+		} else if (win.cy == 0 && win.rowoff == 0) {
+			break;
+		} else {
+			win.cy--;
+			break;
+		}
+	case CTRL('n'):
+		if (win.cy == win.numrows - 1) {
+			break;
+		} else if (win.cy < win.numrows && win.cy == win.nrow) {
+			win.rowoff++;
+			break;
+		} else if (win.rows[win.cy + 1].size > win.rows[win.cy].size) {
+			win.cy++;
+			win.cx = win.rows[win.cy].size;
+			break;
+		} else {
+			win.cy++;
+			break;
+		}
+	case CTRL('e'):
+		win.cx = win.rows[win.cy].size;
+		break;
+	case CTRL('a'):
+		win.cx = 0;
+		break;
+	case CTRL('d'):
+	case 127:
+		if (win.cx == 0 && win.cy == 0) {
+			break;
+		} else if (win.cx == 0 && win.cy != 0) {
+			char *tmp = malloc(win.rows[win.cy].size);
+			strcpy(tmp, win.rows[win.cy].s);
+			del_line(win.cy);
+			win.cy--;
+			win.rows[win.cy].s = realloc(win.rows[win.cy].s, win.rows[win.cy].size + strlen(tmp));
+			strcat(win.rows[win.cy].s, tmp);
+			win.rows[win.cy].size += strlen(tmp);
+			win.cx = win.rows[win.cy].size;
+			break;
+		} else {
+			del_char(&win.rows[win.cy], win.cx - 1);
+			win.cx--;
+			break;
+		}
 		case CTRL('w'):
 			write_to_disk(win.fname);
 			break;
@@ -185,32 +178,4 @@ void process_key(void)
 			win.cx++;
 			break;
 		}
-	}
-}
-
-char status_input()
-{
-	char c = readk();
-	int len = strlen(win.next_stat_msg);
-	win.next_stat_msg = realloc(win.next_stat_msg, len + 1);
-	win.next_stat_msg[len] = c;
-	win.next_stat_msg[len + 1] = '\0';
-	return c;
-}
-
-void nsaved_message()
-{
-	char c;
-	c = status_input();
-	if (c == 'Y' || c == 'y') {
-		tty_revert();
-		write(1, "\033[2J", 4);
-		write(1, "\033[H", 3);
-		exit(1); 
-	} else if (c == 'N' || c == 'n') {
-		win.cx = win.saved_cx;
-		win.cy = win.saved_cy;
-		win.next_stat_msg = win.fname;
-		win.status_mode = 0;
-	}
 }

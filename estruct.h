@@ -30,8 +30,6 @@ struct window {
 	int rowoff; /* Row offset, to use for scrolling */
 	char *next_stat_msg; /* Status message to be displayed next refresh */
 	int status_mode; /* Whether we are getting input on the status bar */
-	int saved_cx, saved_cy; /* Saved coordinates for when we put the cursor into the 
-				   status bar */
 };
 
 struct row {
