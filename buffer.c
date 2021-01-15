@@ -48,7 +48,7 @@ void drawb(char *status_msg)
 	}
 	row_to_buff(&eb);
 	char buf[32];
-	snprintf(buf, sizeof(buf), "\033[%d;%dH", win.cy + 1, win.cx + 1);
+	snprintf(buf, sizeof(buf), "\033[%d;%dH", win.cy + 1 - win.rowoff, win.cx + 1);
 	bwrite(&eb, buf, strlen(buf)); 	
 	bwrite(&eb, "\033[?25h", 6); 
 	write(1, eb.s, eb.size);
@@ -86,8 +86,12 @@ void status(struct buffer *b, const char *s, ... )
    
 void row_to_buff(struct buffer *b)
 {
-	int i;
-	for (i = win.rowoff; i <= win.numrows - 1; i++) {
+	int i, tmp;
+	if (win.numrows > win.nrow)
+		tmp = win.nrow - 1; /* We minus one to allow space for the status bar */
+	else
+		tmp = win.numrows;
+	for (i = win.rowoff; i <= tmp - 1; i++) {
 		bwrite(b, win.rows[i].s, win.rows[i].size);
 		bwrite(b, "\r\n", 2);
 	}
