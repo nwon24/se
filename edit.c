@@ -88,18 +88,9 @@ void new_line(char *s, size_t len, int pos)
 	win.numrows++;
 	win.rows = realloc(win.rows, sizeof(struct row) * win.numrows);
 	
-	/* To insert a row struct in the array, we do a similar thing to the
-	   insert char above: we loop over the array, shifitng everything from
-	   position pos up, freeing a position for the new row struct. The procedure
-	   is slightly more complicated becasue we have to reallocate memory and copy
-	   the strings over. */
+	/* We use memove to move the structs up one position */
 
-	int i;
-	for (i = win.numrows; i > pos; i--) {
-		win.rows[i].s = malloc(win.rows[i - 1].size);
-		win.rows[i].s = win.rows[i - 1].s;
-		win.rows[i].size = win.rows[i - 1].size;
-	}
+	memmove(&win.rows[pos + 1], &win.rows[pos], sizeof(struct row) * (win.numrows - pos - 1));
 	win.rows[pos].s = malloc(len);
 	win.rows[pos].s = s;
 	win.rows[pos].size = len;
@@ -132,12 +123,7 @@ char *split_line(struct row *erow, int pos)
 /* The following function deletes a line at a given position */
 void del_line(int pos)
 {
-	int i;
-	for (i = pos; i < win.numrows - 1; i++) {
-		win.rows[i].s = malloc(win.rows[i + 1].size);
-		win.rows[i].s = win.rows[i + 1].s;
-		win.rows[i].size = win.rows[i + 1].size;
-	}
+	memmove(&win.rows[pos], &win.rows[pos + 1], sizeof(struct row) * (win.numrows - pos - 1));
 	win.numrows--;
 	win.rows = realloc(win.rows, sizeof(struct row) * win.numrows);
 }
