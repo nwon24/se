@@ -181,6 +181,7 @@ void process_key(void)
 		default:
 			/* Default is to insert char */
 			insert_char(&win.rows[win.cy], win.cx, c);
+			win.next_stat_msg = win.fname;
 			win.cx++;
 			break;
 		}
