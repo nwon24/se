@@ -91,7 +91,7 @@ void process_key(void)
 	case CTRL('n'):
 		if (win.cy == win.numrows - 1) {
 			break;
-		} else if (win.cy < win.numrows && win.cy == win.nrow) {
+		} else if (win.cy < win.numrows && win.cy == win.nrow - 1) {
 			win.rowoff++;
 			break;
 		} else if (win.rows[win.cy + 1].size < win.rows[win.cy].size && win.cy > win.rows[win.cy + 1].size) {
