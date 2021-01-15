@@ -63,11 +63,12 @@ void process_key(void)
 			win.cy++;
 			win.cx = 0;
 			break;
-		} else if (win.cy == win.numrows) {
+		} else if (win.cy == win.numrows && win.cx == win.rows[win.cy - 1].size) {
+			break;
+		} else {
+			win.cx++;
 			break;
 		}
-		win.cx++;
-		break;
 	case CTRL('b'):
 		if (win.cx == 0 && win.cy != 0) {
 			win.cy--;
