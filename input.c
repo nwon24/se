@@ -59,11 +59,11 @@ void process_key(void)
 		 * at end of current one
 		 */
 
-		if (win.cx == win.rows[win.cy].size && win.cy != win.numrows) {
+		if (win.cx == win.rows[win.cy].size && win.cy != win.numrows - 1) {
 			win.cy++;
 			win.cx = 0;
 			break;
-		} else if (win.cy == win.numrows && win.cx == win.rows[win.cy - 1].size) {
+		} else if (win.cy == win.numrows - 1 && win.cx == win.rows[win.cy].size) {
 			break;
 		} else {
 			win.cx++;
