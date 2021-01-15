@@ -134,13 +134,12 @@ void del_line(int pos)
 {
 	int i;
 	for (i = pos; i < win.numrows - 1; i++) {
-		win.rows[i].s = realloc(win.rows[i].s, win.rows[i + 1].size);
+		win.rows[i].s = malloc(win.rows[i + 1].size);
 		win.rows[i].s = win.rows[i + 1].s;
 		win.rows[i].size = win.rows[i + 1].size;
 	}
-
-	win.rows = realloc(win.rows, sizeof(struct row) * (win.numrows - 1));
 	win.numrows--;
+	win.rows = realloc(win.rows, sizeof(struct row) * win.numrows);
 }
 
 /* This function appends a new line to the array or row structs. We use a different
