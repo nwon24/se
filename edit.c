@@ -85,7 +85,8 @@ void write_to_disk(char *name)
 
 void new_line(char *s, size_t len, int pos)
 {
-	win.rows = realloc(win.rows, sizeof(struct row) * (win.numrows + 1));
+	win.numrows++;
+	win.rows = realloc(win.rows, sizeof(struct row) * win.numrows);
 	
 	/* To insert a row struct in the array, we do a similar thing to the
 	   insert char above: we loop over the array, shifitng everything from
@@ -95,14 +96,13 @@ void new_line(char *s, size_t len, int pos)
 
 	int i;
 	for (i = win.numrows; i > pos; i--) {
-		win.rows[i].s = realloc(win.rows[i].s, win.rows[i - 1].size);
-		memcpy(&win.rows[i].s, &win.rows[i - 1].s, win.rows[i - 1].size);
+		win.rows[i].s = malloc(win.rows[i - 1].size);
+		win.rows[i].s = win.rows[i - 1].s;
 		win.rows[i].size = win.rows[i - 1].size;
 	}
-	win.rows[pos].s = realloc(win.rows[pos].s, len);
+	win.rows[pos].s = malloc(len);
 	win.rows[pos].s = s;
 	win.rows[pos].size = len;
-	win.numrows++;
 } 
 
 /* This function will split a row into two,
