@@ -186,12 +186,17 @@ void process_key(void)
 			break;
 		case CTRL('k'):
 			cut_line(win.cy);
+			if (win.nsaved != 1)
+				win.nsaved = 1;
 			break;
 		/* Until I figure out what alt + key combination does to a key, (like the CTRL macro), 
 		 * we will have to just use this key combination!
 		 */
 		case CTRL('y'):
 			put_line(win.cy);
+			win.cy++;
+			if (win.nsaved != 1)
+				win.nsaved = 1;
 			break;
 		default:
 			/* Default is to insert char */
