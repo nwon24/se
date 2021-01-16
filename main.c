@@ -31,14 +31,17 @@ int main(int argc, char *argv[])
 	tty_raw();
 	init(argv[1]);
 	int exist = fexist(win.fname);
-	if (exist) {
+
+	/* If file is emtpy or it is a new file, we call the init_file function to give it a starting line */
+	
+	if (exist || win.numrows == 0) {
 		init_file();
 	}
 	goto loop;
 loop:
 	while (1) {
 		/* Get terminal dimensions every time we enter
-		 * loop, since user may have resized window */
+		 * loop, since user may have resized window, perhaps on a graphical terminal emulator */
 		tty_dimensions(&win.nrow, &win.ncol);
 		drawb(win.next_stat_msg);
 		process_key();
