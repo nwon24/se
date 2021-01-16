@@ -17,4 +17,6 @@ void init(char *name)
 	win.rfile = 1;
 	win.rowoff = 0;
 	win.next_stat_msg = name;
+	win.numrows = get_nrow(name);
+	win.kill_buffer = NULL;
 }
