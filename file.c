@@ -70,7 +70,6 @@ int get_nrow(char *file)
    
 void read_into_struct(char *file)
 {
-	win.numrows = get_nrow(file);
 	win.rows = malloc(sizeof(struct row) * win.numrows);
 	int i = 0;
 	while (i <= (win.numrows - 1)) {
@@ -85,7 +84,7 @@ void read_into_struct(char *file)
 
 /* The following file initialises a new file
   It is used if user calls program with file that
- does not exist yet */
+ does not exist yet OR if the file contains nothing */
 
 void init_file()
 {
