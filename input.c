@@ -179,6 +179,20 @@ void process_key(void)
 			insert_char(&win.rows[win.cy], win.cx, '\t');
 			win.cx += TAB_SIZE - 1;
 			break;
+
+		/*  Next are the copy, cut and paste keys */
+		case CTRL('c'):
+			copy_line(win.cy);
+			break;
+		case CTRL('k'):
+			cut_line(win.cy);
+			break;
+		/* Until I figure out what alt + key combination does to a key, (like the CTRL macro), 
+		 * we will have to just use this key combination!
+		 */
+		case CTRL('y'):
+			put_line(win.cy);
+			break;
 		default:
 			/* Default is to insert char */
 			insert_char(&win.rows[win.cy], win.cx, c);

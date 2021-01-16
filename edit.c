@@ -144,3 +144,30 @@ void append_line(char *s)
 	win.rows[win.numrows].size = strlen(s);
 	win.numrows++;
 }
+
+/* This function deletes a line and stores it into a buffer to be pasted somewhere else */
+void cut_line(int pos)
+{
+	win.kill_buffer = malloc(win.rows[pos].size);
+	strcpy(win.kill_buffer, win.rows[pos].s);
+	del_line(pos);
+}
+
+/* Next is the copy function! It is the same as the cut function except we don't delete the line. */
+void copy_line(int pos)
+{
+	win.kill_buffer = malloc(win.rows[pos].size);
+	strcpy(win.kill_buffer, win.rows[pos].s);
+}
+
+/* Next is, of course, a function to put the cut/copied text back at some position */
+int put_line(int pos)
+{
+	/* NOTE: It will be insert the text under the position specified, not above */
+	if (win.kill_buffer == NULL) {
+		win.next_stat_msg = "Nothing in kill buffer";
+		return 1;
+	}
+	new_line(win.kill_buffer, strlen(win.kill_buffer), pos);
+	return 0;
+}
