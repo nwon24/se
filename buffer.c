@@ -37,7 +37,7 @@ void drawb(char *status_msg)
 		bwrite(&eb, "\r\n", 2);
 	}
 
-	if (win.nsaved == 1 && status_msg == win.fname)
+	if (win.nsaved == 1 && strcmp(win.fname, win.next_stat_msg) == 0)
 		status(&eb, "%s*", status_msg);
 	else
 		status(&eb, "%s", status_msg);
@@ -82,7 +82,7 @@ void status(struct buffer *b, const char *s, ... )
    of structs to the buffer, to be written onto the screen.
    TODO: At the moment, it only writes the first line, since
    the get_nrows() function is faulty and incorrectly reports
-   the number of lines as 0 */
+   the number of lines as 0. UPDATE: Solved */
    
 void row_to_buff(struct buffer *b)
 {
@@ -95,4 +95,10 @@ void row_to_buff(struct buffer *b)
 		bwrite(b, win.rows[i].s, win.rows[i].size);
 		bwrite(b, "\r\n", 2);
 	}
+}
+
+void set_status_msg(char *s)
+{
+	win.next_stat_msg = malloc(strlen(s));
+	strcpy(win.next_stat_msg, s);
 }

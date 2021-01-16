@@ -16,3 +16,4 @@ void drawb(char *status_msg);
 void freeb(struct buffer *b);
 void status(struct buffer *b, const char *s, ... );
 void row_to_buff(struct buffer *b);
+void set_status_msg(char *s);
