@@ -168,6 +168,6 @@ int put_line(int pos)
 		win.next_stat_msg = "Nothing in kill buffer";
 		return 1;
 	}
-	new_line(win.kill_buffer, strlen(win.kill_buffer), pos);
+	new_line(win.kill_buffer, strlen(win.kill_buffer), pos + 1);
 	return 0;
 }
