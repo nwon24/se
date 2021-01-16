@@ -3,6 +3,7 @@
 
 #include "tty.h"
 #include "input.h"
+#include "buffer.h"
 #include "edit.h"
 
 #ifndef TAB_SIZE
@@ -35,7 +36,8 @@ void process_key(void)
 	switch (c) {
 	case CTRL('x'):
 		if (win.nsaved && win.status_mode != 1) {
-			win.next_stat_msg = "File has unsaved changes. Press CTRL-x again to quit.";
+			char *msg = "File has unsaved changes. Press CTRL-x again to quit.";
+			set_status_msg(msg);
 			win.status_mode = 1;
 			break;
 		} else {
@@ -56,9 +58,10 @@ void process_key(void)
 	case CTRL('f'):
 
 		/* The following if statement allows cursor to move to next line
-		 * at end of current one
+		 * at end of current one. We also reset status message back to file name
+		 * in case it has changed since last refresh
 		 */
-
+		set_status_msg(win.fname);
 		if (win.cx == win.rows[win.cy].size && win.cy != win.numrows - 1) {
 			win.cy++;
 			win.cx = 0;
@@ -70,6 +73,7 @@ void process_key(void)
 			break;
 		}
 	case CTRL('b'):
+		set_status_msg(win.fname);
 		if (win.cx == 0 && win.cy != 0) {
 			win.cy--;
 			win.cx = win.rows[win.cy].size;
@@ -80,6 +84,7 @@ void process_key(void)
 		win.cx--;
 		break;
 	case CTRL('p'):
+		set_status_msg(win.fname);
 		if (win.cy == 0 && win.rowoff > 0) {
 			win.rowoff--;
 			break;
@@ -90,6 +95,7 @@ void process_key(void)
 			break;
 		}
 	case CTRL('n'):
+		set_status_msg(win.fname);
 		if (win.cy == win.numrows - 1) {
 			break;
 		} else if (win.cy < win.numrows && win.cy == win.nrow - 1) {
@@ -104,10 +110,12 @@ void process_key(void)
 			break;
 		}
 	case CTRL('e'):
-		win.cx = win.rows[win.cy].size;
+		set_status_msg(win.fname);
+		win.next_stat_msg = win.fname;
 		break;
 	case CTRL('a'):
 		win.cx = 0;
+		set_status_msg(win.fname);
 		break;
 	case CTRL('d'):
 	case 127:
@@ -130,8 +138,10 @@ void process_key(void)
 		}
 		case CTRL('w'):
 			write_to_disk(win.fname);
+			set_status_msg(win.fname);
 			break;
 		case 13:
+			set_status_msg(win.fname);
 			if (win.cx == 0) {
 				new_line(" ", 2, win.cy);
 				win.cx = 0;
@@ -174,6 +184,7 @@ void process_key(void)
 		 * an escape.
 		 */
 		case 27:
+			set_status_msg(win.fname);
 			break;
 		case '\t':
 			insert_char(&win.rows[win.cy], win.cx, '\t');
@@ -183,8 +194,10 @@ void process_key(void)
 		/*  Next are the copy, cut and paste keys */
 		case CTRL('c'):
 			copy_line(win.cy);
+			set_status_msg(win.fname);
 			break;
 		case CTRL('k'):
+			set_status_msg(win.fname);
 			cut_line(win.cy);
 			if (win.nsaved != 1)
 				win.nsaved = 1;
@@ -193,6 +206,7 @@ void process_key(void)
 		 * we will have to just use this key combination!
 		 */
 		case CTRL('y'):
+			set_status_msg(win.fname);
 			put_line(win.cy);
 			win.cy++;
 			if (win.nsaved != 1)
@@ -201,7 +215,7 @@ void process_key(void)
 		default:
 			/* Default is to insert char */
 			insert_char(&win.rows[win.cy], win.cx, c);
-			win.next_stat_msg = win.fname;
+			set_status_msg(win.fname);
 			win.cx++;
 			break;
 		}
