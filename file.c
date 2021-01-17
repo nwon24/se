@@ -42,17 +42,19 @@ int fexist(char *file)
 {
 	int exist = stat(file, &fs);
 	if (exist == 0)
-		return 0;
-	else
 		return 1;
+	else
+		return 0;
 }
 
 /* TODO: fix bug here. For some reason, calling this function does not
-   get correct number of rows in file. */
-   
+   get correct number of rows in file. UPDATE: Fixed*/ 
+
 int get_nrow(char *file)
 {
 	FILE *fp = fopen(file, "r");
+	if (fp == NULL)
+		return 0;
 	int c;
 	int nrows = 0;
 	while ((c = getc(fp)) != EOF) {
