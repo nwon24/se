@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 
 	/* If file is emtpy or it is a new file, we call the init_file function to give it a starting line */
 	
-	if (exist || win.numrows == 0) {
+	if (!exist || win.numrows == 0) {
 		init_file();
 	}
 	goto loop;
