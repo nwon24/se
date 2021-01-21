@@ -27,6 +27,7 @@ void bwrite(struct buffer *b, const char *s, int len)
    
 void drawb(char *status_msg)
 {
+	win.absolute_cy = win.cy - win.rowoff;
 	eb.s = NULL;
 	eb.size = 0;
 	bwrite(&eb, "\033[?25l", 6);
@@ -48,7 +49,7 @@ void drawb(char *status_msg)
 	}
 	row_to_buff(&eb);
 	char buf[32];
-	snprintf(buf, sizeof(buf), "\033[%d;%dH", win.cy + 1 - win.rowoff, win.cx + 1);
+	snprintf(buf, sizeof(buf), "\033[%d;%dH", win.absolute_cy + 1, win.cx + 1);
 	bwrite(&eb, buf, strlen(buf)); 	
 	bwrite(&eb, "\033[?25h", 6); 
 	write(1, eb.s, eb.size);
