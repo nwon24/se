@@ -98,8 +98,9 @@ void process_key(void)
 		set_status_msg(win.fname);
 		if (win.cy == win.numrows - 1) {
 			break;
-		} else if (win.cy < win.numrows && win.cy == win.nrow - 1) {
+		} else if (win.cy < win.numrows && win.cy == win.nrow - 2) {
 			win.rowoff++;
+			win.cy++;
 			break;
 		} else if (win.rows[win.cy + 1].size < win.rows[win.cy].size && win.cy > win.rows[win.cy + 1].size) {
 			win.cy++;

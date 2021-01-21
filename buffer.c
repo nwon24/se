@@ -91,7 +91,7 @@ void row_to_buff(struct buffer *b)
 		tmp = win.nrow - 1; /* We minus one to allow space for the status bar */
 	else
 		tmp = win.numrows;
-	for (i = win.rowoff; i <= tmp - 1; i++) {
+	for (i = win.rowoff; i <= tmp - 1 + win.rowoff; i++) {
 		bwrite(b, win.rows[i].s, win.rows[i].size);
 		bwrite(b, "\r\n", 2);
 	}
