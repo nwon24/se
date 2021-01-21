@@ -12,6 +12,7 @@
 
 struct window {
 	int cx, cy;
+	int absolute_cy; /* y-coordinate in relation to the terminal dimensions */
 	char *fname; /* file name */
 	int nsaved; /* if this is equal to 1, then file has been changed
                      * but not saved. Eventually, this will cause an
