@@ -98,7 +98,7 @@ void process_key(void)
 		set_status_msg(win.fname);
 		if (win.cy == win.numrows - 1) {
 			break;
-		} else if (win.cy < win.numrows && win.cy == win.nrow - 2) {
+		} else if (win.cy < win.numrows && win.absolute_cy == win.nrow - 2) {
 			win.rowoff++;
 			win.cy++;
 			break;
