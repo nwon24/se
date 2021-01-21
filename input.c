@@ -85,8 +85,9 @@ void process_key(void)
 		break;
 	case CTRL('p'):
 		set_status_msg(win.fname);
-		if (win.cy == 0 && win.rowoff > 0) {
+		if (win.absolute_cy == 0 && win.rowoff > 0) {
 			win.rowoff--;
+			win.cy--;
 			break;
 		} else if (win.cy == 0 && win.rowoff == 0) {
 			break;
