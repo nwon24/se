@@ -113,7 +113,7 @@ void process_key(void)
 		}
 	case CTRL('e'):
 		set_status_msg(win.fname);
-		win.next_stat_msg = win.fname;
+		win.cx = win.rows[win.cy].size;
 		break;
 	case CTRL('a'):
 		win.cx = 0;
@@ -210,7 +210,6 @@ void process_key(void)
 		case CTRL('y'):
 			set_status_msg(win.fname);
 			put_line(win.cy);
-			win.cy++;
 			if (win.nsaved != 1)
 				win.nsaved = 1;
 			break;
