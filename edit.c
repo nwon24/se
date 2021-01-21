@@ -169,5 +169,6 @@ int put_line(int pos)
 		return 1;
 	}
 	new_line(win.kill_buffer, strlen(win.kill_buffer), pos + 1);
+	win.cy++;
 	return 0;
 }
