@@ -151,18 +151,24 @@ void process_key(void)
 				win.nsaved = 1;
 				break;
 			} else if (win.cy == win.numrows - 1 && win.cx == win.rows[win.cy].size) {
+				if (win.absolute_cy == win.nrow - 2)
+					win.rowoff++;
 				append_line(" ");
 				win.cx = 0;
 				win.cy++;
 				win.nsaved = 1;
 				break;
 			} else if (win.cx == win.rows[win.cy].size) {
+				if (win.absolute_cy == win.nrow - 2)
+					win.rowoff++;
 				new_line(" ", 2, win.cy + 1);
 				win.cy++;
 				win.cx = 0;
 				win.nsaved = 1;
 				break;
 			} else if (win.cy != win.numrows - 1) {
+				if (win.absolute_cy == win.nrow - 2)
+					win.rowoff++;
 				char *line = split_line(&win.rows[win.cy], win.cx);
 				win.cy++;
 				new_line(line, strlen(line), win.cy);
@@ -170,6 +176,8 @@ void process_key(void)
 				win.nsaved = 1;
 				break;
 			} else {
+				if (win.absolute_cy == win.nrow - 2)
+					win.rowoff++; 
 				char *line = split_line(&win.rows[win.cy], win.cx);
 				win.cy++;
 				append_line(line);
