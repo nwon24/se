@@ -12,4 +12,4 @@
 #endif
 
 char readk(void);
-void process_key(void);
+int insert_mode(void);
