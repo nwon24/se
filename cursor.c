@@ -63,3 +63,15 @@ void up_line()
 		return;
 	}
 }
+
+void goto_sol()
+{
+	set_status_msg(win.fname);
+	win.cx = 0;
+}
+
+void goto_eol()
+{
+	set_status_msg(win.fname);
+	win.cx = win.rows[win.cy].size;
+}
