@@ -26,12 +26,10 @@ char readk(void)
 	return c;
 }
 
-/* Process the key returned in the above
- * function. At the moment, there are only statements
- * to change cursor position. 
- */
+/* This was originally process_input(), so that is why it is in this file
+   and looks slightly out of place */
 
-void process_key(void)
+int insert_mode(void)
 {
 	char c = readk();
 	switch (c) {
@@ -155,6 +153,7 @@ void process_key(void)
 		 */
 		case 27:
 			set_status_msg(win.fname);
+			win.cur_mode = COMMAND_MODE;
 			break;
 		case '\t':
 			insert_char(&win.rows[win.cy], win.cx, '\t');
@@ -188,4 +187,5 @@ void process_key(void)
 			win.cx++;
 			break;
 		}
+	return 0;
 }
