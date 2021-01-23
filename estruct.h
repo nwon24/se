@@ -10,6 +10,9 @@
  * of the file.
  */
 
+#define INSERT_MODE 1
+#define COMMAND_MODE 0
+
 struct window {
 	int cx, cy;
 	int absolute_cy; /* y-coordinate in relation to the terminal dimensions */
@@ -32,6 +35,7 @@ struct window {
 	char *next_stat_msg; /* Status message to be displayed next refresh */
 	int status_mode; /* Whether we are getting input on the status bar */
 	char *kill_buffer; /* Buffer to store cut or copied text */
+	int cur_mode; /* current mode */
 };
 
 struct row {
