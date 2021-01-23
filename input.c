@@ -74,12 +74,10 @@ void process_key(void)
 		down_line();
 		break;	
 	case CTRL('e'):
-		set_status_msg(win.fname);
-		win.cx = win.rows[win.cy].size;
+		goto_eol();
 		break;
 	case CTRL('a'):
-		win.cx = 0;
-		set_status_msg(win.fname);
+		goto_sol();
 		break;
 	case CTRL('d'):
 	case 127:
