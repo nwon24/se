@@ -20,4 +20,5 @@ void init(char *name)
 	win.next_stat_msg = name;
 	win.numrows = get_nrow(name);
 	win.kill_buffer = NULL;
+	win.cur_mode = COMMAND_MODE; /* Start in command mode */
 }
