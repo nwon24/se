@@ -5,6 +5,7 @@
 #include "input.h"
 #include "buffer.h"
 #include "edit.h"
+#include "cursor.h"
 
 #ifndef TAB_SIZE
 #define TAB_SIZE 8
@@ -61,56 +62,17 @@ void process_key(void)
 		 * at end of current one. We also reset status message back to file name
 		 * in case it has changed since last refresh
 		 */
-		set_status_msg(win.fname);
-		if (win.cx == win.rows[win.cy].size && win.cy != win.numrows - 1) {
-			win.cy++;
-			win.cx = 0;
-			break;
-		} else if (win.cy == win.numrows - 1 && win.cx == win.rows[win.cy].size) {
-			break;
-		} else {
-			win.cx++;
-			break;
-		}
+		forward_char();
+		break;
 	case CTRL('b'):
-		set_status_msg(win.fname);
-		if (win.cx == 0 && win.cy != 0) {
-			win.cy--;
-			win.cx = win.rows[win.cy].size;
-			break;
-		} else if (win.cy == 0 && win.cx == 0) {
-			break;
-		}
-		win.cx--;
+		backward_char();
 		break;
 	case CTRL('p'):
-		set_status_msg(win.fname);
-		if (win.absolute_cy == 0 && win.rowoff > 0) {
-			win.rowoff--;
-			win.cy--;
-			break;
-		} else if (win.cy == 0 && win.rowoff == 0) {
-			break;
-		} else {
-			win.cy--;
-			break;
-		}
+		up_line();
+		break;
 	case CTRL('n'):
-		set_status_msg(win.fname);
-		if (win.cy == win.numrows - 1) {
-			break;
-		} else if (win.cy < win.numrows && win.absolute_cy == win.nrow - 2) {
-			win.rowoff++;
-			win.cy++;
-			break;
-		} else if (win.rows[win.cy + 1].size < win.rows[win.cy].size && win.cy > win.rows[win.cy + 1].size) {
-			win.cy++;
-			win.cx = win.rows[win.cy].size;
-			break;
-		} else {
-			win.cy++;
-			break;
-		}
+		down_line();
+		break;	
 	case CTRL('e'):
 		set_status_msg(win.fname);
 		win.cx = win.rows[win.cy].size;
