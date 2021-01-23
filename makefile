@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-std=c99 -Wall -pedantic -O1 -fcommon
 TARGET=se
-OBJ=input.o main.o cursor.o buffer.o tty.o edit.o file.o init.o
+OBJ=input.o main.o cursor.o buffer.o tty.o edit.o file.o init.o command.o
 
 $(TARGET): $(OBJ)
 	$(CC) $^ -o $@ $(CFLAGS)
