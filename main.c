@@ -5,6 +5,7 @@
 #include "tty.h"
 #include "input.h"
 #include "buffer.h"
+#include "command.h"
 #include "file.h"
 
 extern struct window win;
@@ -44,7 +45,11 @@ loop:
 		 * loop, since user may have resized window, perhaps on a graphical terminal emulator */
 		tty_dimensions(&win.nrow, &win.ncol);
 		drawb(win.next_stat_msg);
-		process_key();
+
+		if (win.cur_mode == COMMAND_MODE)
+			command_mode();
+		else
+			insert_mode();
 	}
 	return 0;
 }
