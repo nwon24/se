@@ -52,6 +52,22 @@ void command_mode()
 	case 'e':
 		win.cur_mode = INSERT_MODE;
 		break;
+
+	/* n for new line */
+	case 'n':
+		new_line(" ", 2, win.cy + 1);
+		win.cur_mode = INSERT_MODE;
+		win.cx = 0;
+		win.cy++;
+		win.nsaved = 1;
+		break;
+
+	case 'N':
+		new_line(" ", 2, win.cy);
+		win.cur_mode = INSERT_MODE;
+		win.cx = 0;
+		win.nsaved = 1;
+		break;
 	default:
 		break;
 	}
