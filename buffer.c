@@ -72,10 +72,16 @@ void status(struct buffer *b, const char *s, ... )
 	int len = vsnprintf(status, sizeof(status), s, args);
 	if (len > win.ncol) len = win.nrow;
 	bwrite(b, status, len); 
-	while (len < win.ncol) {
+	/* We leave space to show whether we are in command or edit mode */
+	while (len < win.ncol - 3) {
 		bwrite(b, " ", 1);
 		len++;
 	}
+
+	if (win.cur_mode == COMMAND_MODE)
+		bwrite(b, "(C)", 3);
+	else
+		bwrite(b, "(E)", 3);
 	bwrite(b, "\033[m", 3);
 }
 
