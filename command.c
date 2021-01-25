@@ -68,6 +68,19 @@ void command_mode()
 		win.cx = 0;
 		win.nsaved = 1;
 		break;
+
+	/* These commands move the cursor backwards/forwards and
+	   put the user into insert mode */
+	case 'f':
+		forward_char();
+		win.cur_mode = INSERT_MODE;
+		break;
+
+	case 'b':
+		backward_char();
+		win.cur_mode = INSERT_MODE;
+		break;
+
 	default:
 		break;
 	}
