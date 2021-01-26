@@ -12,7 +12,17 @@ extern struct window win;
 
 void usage()
 {
-	printf("se - A simple text editor\nUSAGE: se [FILE]\nIf file specified does not exist, it will be created.\n");
+	printf("se - A simple text editor\nUSAGE: se [FILE]\n");
+	printf("If file does not exist, it will be created.\n");
+	printf("Commands:\n \
+	j, k, l, i: move cursor\n \
+	e: change to edit mode\n \
+	f: move cursor forward and change to edit mode\n \
+	b: move cursor backward and change to edit mode\n \
+	0, $: move cursor to start and end of line respectively\n \
+	A, E: move cursor to start/end of line and change to edit mode\n \
+	ESC: Switch back to command mode\n \
+	In edit mode, basic Emacs-like keybindings work.\n");
 	exit(1);
 }
 int main(int argc, char *argv[])
