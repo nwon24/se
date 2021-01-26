@@ -81,6 +81,16 @@ void command_mode()
 		win.cur_mode = INSERT_MODE;
 		break;
 
+	case 'E':
+		goto_eol();
+		win.cur_mode = INSERT_MODE;
+		break;
+
+	case 'A':
+		goto_sol();
+		win.cur_mode = INSERT_MODE;
+		break;
+
 	default:
 		break;
 	}
