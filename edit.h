@@ -20,3 +20,5 @@ void copy_line(int pos);
 int put_line(int pos);
 int check_tab(struct row *erow, int pos);
 void del_tab();
+void goto_next_word();
+void goto_back_word();
