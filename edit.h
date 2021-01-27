@@ -1,3 +1,6 @@
+#ifndef _EDIT_H
+#define _EDIT_H
+
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -22,3 +25,5 @@ int check_tab(struct row *erow, int pos);
 void del_tab();
 void goto_next_word();
 void goto_back_word();
+
+#endif

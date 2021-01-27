@@ -1,3 +1,6 @@
+#ifndef _ESTRUCT_H
+#define _ESTRUCT_H
+
 /* estruct.h
  * This file defines core structs for the editor.
  * The struct window contains variables such as
@@ -45,3 +48,5 @@ struct row {
 
 struct window win;
 void init(char *name);
+
+#endif

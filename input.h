@@ -1,3 +1,6 @@
+#ifndef _INPUT_H
+#define _INPUT_H
+
 #include <unistd.h>
 #include <stdlib.h>
 
@@ -13,3 +16,5 @@
 
 char readk(void);
 int insert_mode(void);
+
+#endif

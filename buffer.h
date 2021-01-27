@@ -1,3 +1,6 @@
+#ifndef _BUFFER_H
+#define _BUFFER_H
+
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -17,3 +20,5 @@ void freeb(struct buffer *b);
 void status(struct buffer *b, const char *s, ... );
 void row_to_buff(struct buffer *b);
 void set_status_msg(char *s);
+
+#endif
