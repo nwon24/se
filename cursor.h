@@ -1,3 +1,5 @@
+#include "edit.h"
+
 void forward_char();
 void backward_char();
 void down_line();
