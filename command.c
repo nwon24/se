@@ -98,7 +98,19 @@ void command_mode()
 		goto_back_word();
 		break;
 
+	case 't':
+		goto_specified_char();
+		break;
 	default:
 		break;
 	}
+}
+
+/* Here are some sub routines to be invoked within other commands */
+void goto_specified_char()
+{
+	char c = readk();
+	if (c == 27)
+		return;
+	goto_char(c);
 }
