@@ -172,3 +172,32 @@ int put_line(int pos)
 	win.cy++;
 	return 0;
 }
+
+/* This function checks if the cursor is at the beginning/end of an inserted tab
+   It doesn't really fit into any other file so it is placed here */
+
+int check_tab(struct row *erow, int pos)
+{
+	int i;
+	for (i = 1; (erow->s[pos + i] == ' ') && (pos + i < erow->size); i++)
+		;
+	if (i == TAB_SIZE + 1)
+		return BEG_TAB;
+
+	for (i = 1; (erow->s[pos - i] == ' ') && (pos - i != 0); i++)
+		;
+
+	if (i == TAB_SIZE + 1)
+		return END_TAB;
+	return NO_TAB;
+}
+
+/* This function deletes the 8 spaces that constitute a tab */
+void del_tab()
+{
+	int i;
+	for (i = 0; i <= TAB_SIZE - 1; i++) {
+		del_char(&win.rows[win.cy], win.cx - 1);
+		win.cx--;
+	}
+}
