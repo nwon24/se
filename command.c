@@ -2,7 +2,6 @@
 #include "buffer.h"
 #include "cursor.h"
 #include "command.h"
-#include "edit.h"
 #include "tty.h"
 
 extern struct window win;
@@ -89,6 +88,14 @@ void command_mode()
 	case 'A':
 		goto_sol();
 		win.cur_mode = INSERT_MODE;
+		break;
+
+	case 'd':
+		goto_next_word();
+		break;
+
+	case 'D':
+		goto_back_word();
 		break;
 
 	default:
