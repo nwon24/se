@@ -7,10 +7,6 @@
 #include "edit.h"
 #include "cursor.h"
 
-#ifndef TAB_SIZE
-#define TAB_SIZE 8
-#endif
-
 extern struct window win;
 
 /* read a single key and return it 
@@ -92,8 +88,14 @@ int insert_mode(void)
 			win.cx = win.rows[win.cy].size;
 			break;
 		} else {
-			del_char(&win.rows[win.cy], win.cx - 1);
-			win.cx--;
+			int i;
+			i = check_tab(&win.rows[win.cy], win.cx);
+			if (i == END_TAB) {
+				del_tab();
+			} else {
+				del_char(&win.rows[win.cy], win.cx - 1);
+				win.cx--;
+			}
 			break;
 		}
 		case CTRL('w'):
@@ -156,9 +158,9 @@ int insert_mode(void)
 			win.cur_mode = COMMAND_MODE;
 			break;
 		case '\t':
-			for (int i = 0; i <= TAB_SIZE; i++)
+			for (int i = 0; i <= TAB_SIZE - 1; i++)
 				insert_char(&win.rows[win.cy], win.cx, ' ');
-			win.cx += TAB_SIZE - 1;
+			win.cx += TAB_SIZE;
 			break;
 
 		/*  Next are the copy, cut and paste keys */
