@@ -156,7 +156,8 @@ int insert_mode(void)
 			win.cur_mode = COMMAND_MODE;
 			break;
 		case '\t':
-			insert_char(&win.rows[win.cy], win.cx, '\t');
+			for (int i = 0; i <= TAB_SIZE; i++)
+				insert_char(&win.rows[win.cy], win.cx, ' ');
 			win.cx += TAB_SIZE - 1;
 			break;
 
