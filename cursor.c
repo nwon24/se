@@ -85,3 +85,31 @@ void goto_eol()
 	set_status_msg(win.fname);
 	win.cx = win.rows[win.cy].size;
 }
+
+void goto_next_word()
+{
+	set_status_msg(win.fname);
+	int old_cx = win.cx;
+	while (win.rows[win.cy].s[win.cx] != ' ') {
+		if (win.cx == win.rows[win.cy].size) {
+			win.cx = old_cx;
+			return;
+		}
+		win.cx++;
+	}
+	win.cx++;
+}
+
+void goto_back_word()
+{
+	set_status_msg(win.fname);
+	int old_cx = win.cx;
+	while (win.rows[win.cy].s[win.cx] != ' ') {
+		if (win.cx == 0) {
+			win.cx = old_cx;
+			return;
+		}
+		win.cx--;
+	}
+	win.cx--;
+}
