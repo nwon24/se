@@ -1,5 +1,4 @@
 #include "cursor.h"
-#include "estruct.h"
 #include "buffer.h"
 
 extern struct window win;
@@ -7,6 +6,12 @@ extern struct window win;
 void forward_char()
 {
 	set_status_msg(win.fname);
+	int i = check_tab(&win.rows[win.cy], win.cx);
+	if (i == BEG_TAB) {
+		win.cx += TAB_SIZE;
+		return;
+	}
+
 	if (win.cx == win.rows[win.cy].size && win.cy != win.numrows - 1) {
 		win.cy++;
 		win.cx = 0;
@@ -20,6 +25,11 @@ void forward_char()
 void backward_char()
 {
 	set_status_msg(win.fname);
+	int i = check_tab(&win.rows[win.cy], win.cx);
+	if (i == END_TAB) {
+		win.cx -= TAB_SIZE;
+		return;
+	}
 	if (win.cx == 0 && win.cy != 0) {
 		win.cy--;
 		win.cx = win.rows[win.cy].size;
