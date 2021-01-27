@@ -3,6 +3,8 @@
 
 extern struct window win;
 
+/* The functions in this file are pretty self-explanatory */
+
 void forward_char()
 {
 	set_status_msg(win.fname);
@@ -112,4 +114,16 @@ void goto_back_word()
 		win.cx--;
 	}
 	win.cx--;
+}
+
+/* This function moves the cursor to the next instance of char c in the current line */
+void goto_char(int c)
+{
+	int old_cx = win.cx;
+	while (win.rows[win.cy].s[win.cx] != c && win.cx < win.rows[win.cy].size)
+		win.cx++;
+
+	/* Return to old position if character not found in line */
+	if (win.rows[win.cy].s[win.cx] != c)
+		win.cx = old_cx;
 }
