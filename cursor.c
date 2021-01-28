@@ -127,3 +127,14 @@ void goto_char(int c)
 	if (win.rows[win.cy].s[win.cx] != c)
 		win.cx = old_cx;
 }
+
+/* Same as above, just the opposite direction */
+void goto_char_back(int c)
+{
+	int old_cx = win.cx;
+	while (win.rows[win.cy].s[win.cx] != c && win.cx != 0)
+		win.cx--;
+
+	if (win.rows[win.cy].s[win.cx] != c)
+		win.cx = old_cx;
+}
