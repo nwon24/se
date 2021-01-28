@@ -13,8 +13,12 @@
  * of the file.
  */
 
-#define INSERT_MODE 1
-#define COMMAND_MODE 0
+enum {
+	COMMAND_MODE,
+	INSERT_MODE,
+	LINE,
+	SEGMENT,
+};
 
 struct window {
 	int cx, cy;
@@ -38,6 +42,7 @@ struct window {
 	char *next_stat_msg; /* Status message to be displayed next refresh */
 	int status_mode; /* Whether we are getting input on the status bar */
 	char *kill_buffer; /* Buffer to store cut or copied text */
+	int kill_buffer_type;
 	int cur_mode; /* current mode */
 };
 
