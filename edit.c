@@ -3,6 +3,7 @@
  * and adding text to row structs */
 
 #include "edit.h"
+#include "buffer.h"
 
 extern struct window win;
 
@@ -151,6 +152,7 @@ void cut_line(int pos)
 	win.kill_buffer = malloc(win.rows[pos].size);
 	strcpy(win.kill_buffer, win.rows[pos].s);
 	del_line(pos);
+	win.kill_buffer_type = LINE;
 }
 
 /* Next is the copy function! It is the same as the cut function except we don't delete the line. */
@@ -158,6 +160,7 @@ void copy_line(int pos)
 {
 	win.kill_buffer = malloc(win.rows[pos].size);
 	strcpy(win.kill_buffer, win.rows[pos].s);
+	win.kill_buffer_type = LINE;
 }
 
 /* Next is, of course, a function to put the cut/copied text back at some position */
@@ -200,4 +203,56 @@ void del_tab()
 		del_char(&win.rows[win.cy], win.cx - 1);
 		win.cx--;
 	}
+}
+
+/* These two functions copy/cut a specific segment within a line */
+void copy_segment(struct row *erow, int start, int end)
+{
+	if (start < 0 || end > erow->size)
+		return;
+
+	int i, j;
+	j = 0;
+	win.kill_buffer = malloc(end - start);
+	for (i = start; i <= end; i++) {
+		win.kill_buffer[j] = erow->s[i];
+		j++;
+	}
+	win.kill_buffer_type = SEGMENT;
+}
+
+void cut_segment(struct row *erow, int start, int end)
+{
+	if (start < 0 || end > erow->size)
+		return;
+
+	int i, j;
+	j = 0;
+	win.kill_buffer = malloc(end - start);
+	for (i = start; i <= end; i++) {
+		win.kill_buffer[j] = erow->s[i];
+		del_char(erow, i);
+		j++;
+	}
+	win.kill_buffer_type = SEGMENT;
+}
+
+void put_segment(struct row *erow, int start)
+{
+	for (int i = 0; i < strlen(win.kill_buffer); i++)
+		insert_char(&win.rows[win.cy], start + i, win.kill_buffer[i]);
+	win.cx += strlen(win.kill_buffer);
+}
+
+void put_kill_buffer()
+{
+	if (win.kill_buffer == NULL) {
+		set_status_msg("Nothing in kill buffer");
+		return;
+	}
+
+	if (win.kill_buffer_type == LINE)
+		put_line(win.cy);
+	else if (win.kill_buffer_type == SEGMENT)
+		put_segment(&win.rows[win.cy], win.cx);
 }
