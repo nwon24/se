@@ -214,6 +214,10 @@ void copy_segment(struct row *erow, int start, int end)
 	int i, j;
 	j = 0;
 	win.kill_buffer = malloc(end - start);
+	if (win.kill_buffer == NULL) {
+		set_status_msg("Kill buffer corrupted, save work and restart program");
+		return;
+	}
 	for (i = start; i <= end; i++) {
 		win.kill_buffer[j] = erow->s[i];
 		j++;
@@ -229,11 +233,17 @@ void cut_segment(struct row *erow, int start, int end)
 	int i, j;
 	j = 0;
 	win.kill_buffer = malloc(end - start);
+	if (win.kill_buffer == NULL) {
+		set_status_msg("Kill buffer corrupted, save work and restart program");
+		return;
+	}
 	for (i = start; i <= end; i++) {
 		win.kill_buffer[j] = erow->s[i];
-		del_char(erow, i);
 		j++;
 	}
+
+	for (i = 0; i < (end - start); i++)
+		del_char(erow, win.cx);
 	win.kill_buffer_type = SEGMENT;
 }
 
