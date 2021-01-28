@@ -103,6 +103,10 @@ void command_mode()
 		goto_specified_char();
 		break;
 
+	case 'T':
+		goto_specified_char_backwards();
+		break;
+
 	case 'c':
 		copy_command();
 		break;
@@ -127,6 +131,14 @@ void goto_specified_char()
 	if (c == 27)
 		return;
 	goto_char(c);
+}
+
+void goto_specified_char_backwards()
+{
+	char c = readk();
+	if (c == 27)
+		return;
+	goto_char_back(c);
 }
 
 void copy_command()
