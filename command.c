@@ -3,6 +3,7 @@
 #include "cursor.h"
 #include "command.h"
 #include "tty.h"
+#include <ctype.h>
 
 extern struct window win;
 
@@ -101,6 +102,19 @@ void command_mode()
 	case 't':
 		goto_specified_char();
 		break;
+
+	case 'c':
+		copy_command();
+		break;
+
+	case 'y':
+		cut_command();
+		break;
+
+	case 'p':
+		put_kill_buffer();
+		break;
+
 	default:
 		break;
 	}
@@ -113,4 +127,30 @@ void goto_specified_char()
 	if (c == 27)
 		return;
 	goto_char(c);
+}
+
+void copy_command()
+{
+	char c = readk();
+	if ((isdigit(c)) > 0) {
+		copy_segment(&win.rows[win.cy], win.cx, win.cx + (c - '0'));
+		return;
+	}
+	if (c == 'c')
+		copy_line(win.cy);
+	else
+		return;
+}
+
+void cut_command()
+{
+	char c = readk();
+	if ((isdigit(c)) > 0) {
+		cut_segment(&win.rows[win.cy], win.cx, win.cx + (c - '0'));
+		return;
+	}
+	if (c == 'y')
+		cut_line(win.cy);
+	else
+		return;
 }
