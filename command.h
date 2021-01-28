@@ -8,6 +8,7 @@
 
 void command_mode();
 void goto_specified_char();
+void goto_specified_char_backwards();
 void cut_command();
 void copy_command();
 
