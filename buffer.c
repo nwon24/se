@@ -32,7 +32,7 @@ void drawb(char *status_msg)
 	eb.size = 0;
 	bwrite(&eb, "\033[?25l", 6);
 	bwrite(&eb, "\033[H", 3);
-	for (int i = 0; i < win.ncol; i++) {
+	for (int i = win.absolute_cy; i < win.ncol; i++) {
 		bwrite(&eb, "~", 1);
 		bwrite(&eb, "\033[K", 3);
 		bwrite(&eb, "\r\n", 2);
