@@ -22,6 +22,7 @@ void usage()
 	0, $: move cursor to start and end of line respectively\n \
 	A, E: move cursor to start/end of line and change to edit mode\n \
 	d, D: move forward/backward by one word\n \
+	t, T: move forward/backward to specified char\n \
 	ESC: Switch back to command mode\n \
 	In edit mode, basic Emacs-like keybindings work.\n");
 	exit(1);
