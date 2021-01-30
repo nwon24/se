@@ -23,6 +23,7 @@ void usage()
 	A, E: move cursor to start/end of line and change to edit mode\n \
 	d, D: move forward/backward by one word\n \
 	t, T: move forward/backward to specified char\n \
+	1, !: move to start/end of file\n \
 	ESC: Switch back to command mode\n \
 	In edit mode, basic Emacs-like keybindings work.\n");
 	exit(1);
@@ -30,7 +31,9 @@ void usage()
 int main(int argc, char *argv[])
 {
         /* For now, we say that the program must be invoked with
-         * the name of an existing file */
+         * the name of an existing file. UPDATE: program can now be invoked 
+         * with a file name that doesn't exist and it will be created.
+         */
         
 	if (argc < 2) {
 		printf("No file specified.\n");
