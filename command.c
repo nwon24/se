@@ -10,7 +10,7 @@ extern struct window win;
 void command_mode()
 {
 	char c = readk();
-
+	char *split;
 	switch (c) {
 	/* WARNING: The quit command here does not have protection against unsaved
            files yet */
@@ -119,6 +119,16 @@ void command_mode()
 		put_kill_buffer();
 		break;
 
+	case 's':
+		if (win.cx == 0 || win.cx == win.rows[win.cy].size)
+			break;
+		split = split_line(&win.rows[win.cy], win.cx);
+		new_line(split, strlen(split), win.cy + 1);
+		win.cur_mode = INSERT_MODE;
+		win.cy++;
+		win.cx = 0;
+		break;
+		
 	default:
 		break;
 	}
