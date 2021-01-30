@@ -128,7 +128,13 @@ void command_mode()
 		win.cy++;
 		win.cx = 0;
 		break;
-		
+	case '1':
+		goto_sof();
+		break;
+	
+	case '!':
+		goto_eof();
+		break;		
 	default:
 		break;
 	}
@@ -176,3 +182,20 @@ void cut_command()
 	else
 		return;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
