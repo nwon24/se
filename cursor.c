@@ -138,3 +138,20 @@ void goto_char_back(int c)
 	if (win.rows[win.cy].s[win.cx] != c)
 		win.cx = old_cx;
 }
+
+void goto_eof()
+{
+	while (win.cy != win.numrows - 1)
+		down_line();
+	goto_eol();
+	while (win.numrows - win.rowoff >= win.nrow)
+		win.rowoff++;
+}
+
+void goto_sof()
+{
+	while (win.cy != 0)
+		up_line();
+	goto_sol();
+	win.rowoff = 0;
+}
