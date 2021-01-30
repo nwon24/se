@@ -11,5 +11,7 @@ void goto_eol(); /* go to end of line */
 void goto_sol(); /* go to start of line */
 void goto_char();
 void goto_char_back();
+void goto_eof();
+void goto_sof();
 
 #endif
