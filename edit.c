@@ -4,6 +4,7 @@
 
 #include "edit.h"
 #include "buffer.h"
+#include "cursor.h"
 
 extern struct window win;
 
@@ -172,7 +173,10 @@ int put_line(int pos)
 		return 1;
 	}
 	new_line(win.kill_buffer, strlen(win.kill_buffer), pos + 1);
-	win.cy++;
+	if (win.absolute_cy == win.nrow - 2)
+		win.rowoff++;
+	else
+		win.cy++;
 	return 0;
 }
 
@@ -266,3 +270,5 @@ void put_kill_buffer()
 	else if (win.kill_buffer_type == SEGMENT)
 		put_segment(&win.rows[win.cy], win.cx);
 }
+
+
