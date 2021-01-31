@@ -51,7 +51,7 @@ void down_line()
 		win.rowoff++;
 		win.cy++;
 		return;
-	} else if (win.rows[win.cy + 1].size < win.rows[win.cy].size && win.cy > win.rows[win.cy + 1].size) {
+	} else if (win.rows[win.cy + 1].size < win.rows[win.cy].size) {
 		win.cy++;
 		win.cx = win.rows[win.cy].size;
 		return;
