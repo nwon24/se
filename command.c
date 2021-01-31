@@ -15,6 +15,12 @@ void command_mode()
 	/* WARNING: The quit command here does not have protection against unsaved
            files yet */
 	case 'q':
+		if (win.nsaved && !win.quit_confirm) {
+			char *s = "File has unsaved changes, press q again to quit";
+			set_status_msg(s);	
+			win.quit_confirm = 1;
+			break;
+		}
 		write(1, "\033[2J", 4);
 		write(1, "\033[H", 3);
 		tty_revert();
@@ -135,6 +141,12 @@ void command_mode()
 	case '!':
 		goto_eof();
 		break;		
+
+	case '\n':
+		down_line();
+		win.cx = 0;
+		break;
+
 	default:
 		break;
 	}
