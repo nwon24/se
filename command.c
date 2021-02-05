@@ -140,9 +140,6 @@ void command_mode()
 	
 	case '!':
 		goto_eof();
-<<<<<<< HEAD
-		break;
-=======
 		break;		
 
 	case '\n':
@@ -150,7 +147,6 @@ void command_mode()
 		win.cx = 0;
 		break;
 
->>>>>>> d7f62a37fdd582547ea5bafc968a839be17d0fed
 	default:
 		break;
 	}
