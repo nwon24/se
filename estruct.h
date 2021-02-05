@@ -40,7 +40,7 @@ struct window {
 	int nfile; /* This flag indicates if it is a new file */
 	int rowoff; /* Row offset, to use for scrolling */
 	char *next_stat_msg; /* Status message to be displayed next refresh */
-	int status_mode; /* Whether we are getting input on the status bar */
+	int quit_confirm; /* Whether we have warned the user about an unsaved file */
 	char *kill_buffer; /* Buffer to store cut or copied text */
 	int kill_buffer_type;
 	int cur_mode; /* current mode */

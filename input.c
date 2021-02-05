@@ -30,10 +30,10 @@ int insert_mode(void)
 	char c = readk();
 	switch (c) {
 	case CTRL('x'):
-		if (win.nsaved && win.status_mode != 1) {
+		if (win.nsaved && !win.quit_confirm) {
 			char *msg = "File has unsaved changes. Press CTRL-x again to quit.";
 			set_status_msg(msg);
-			win.status_mode = 1;
+			win.quit_confirm = 1;
 			break;
 		} else {
 			tty_revert();

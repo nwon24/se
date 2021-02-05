@@ -46,19 +46,16 @@ void down_line()
 {
 	set_status_msg(win.fname);
 	if (win.cy == win.numrows - 1) {
-		return;	
+		;
 	} else if (win.cy < win.numrows && win.absolute_cy == win.nrow - 2) {
 		win.rowoff++;
 		win.cy++;
-		return;
-	} else if (win.rows[win.cy + 1].size < win.rows[win.cy].size && win.cy > win.rows[win.cy + 1].size) {
-		win.cy++;
-		win.cx = win.rows[win.cy].size;
-		return;
 	} else {
 		win.cy++;
-		return;
 	}
+
+	if (win.cx > win.rows[win.cy].size)
+		win.cx = win.rows[win.cy].size;
 }
 
 void up_line()
@@ -67,13 +64,14 @@ void up_line()
 	if (win.absolute_cy == 0 && win.rowoff > 0) {
 		win.rowoff--;
 		win.cy--;
-		return;
 	} else if (win.cy == 0 && win.rowoff == 0) {
-		return;
+		;
 	} else {
 		win.cy--;
-		return;
 	}
+	/* Make sure cursor can only go to valid positions */
+	if (win.cx > win.rows[win.cy].size)
+		win.cx = win.rows[win.cy].size;
 }
 
 void goto_sol()
