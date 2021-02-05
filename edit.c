@@ -279,6 +279,7 @@ int count_next_word()
 	return i - win.cx;
 }
 
+/* These functions cut/copy to end of next word. NOTE: Still very buggy! */
 void cut_word()
 {
 	int i;
