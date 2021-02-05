@@ -271,4 +271,24 @@ void put_kill_buffer()
 		put_segment(&win.rows[win.cy], win.cx);
 }
 
+int count_next_word()
+{
+	int i = win.cx;
+	while (win.rows[win.cy].s[i++] != ' ')
+		;
+	return i - win.cx;
+}
 
+void cut_word()
+{
+	int i;
+	i = count_next_word();
+	cut_segment(&win.rows[win.cy], win.cx, win.cx + i - 1);
+}
+
+void copy_word()
+{
+	int i;
+	i = count_next_word();
+	copy_segment(&win.rows[win.cy], win.cx, win.cx + i - 1);
+}
