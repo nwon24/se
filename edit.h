@@ -29,5 +29,8 @@ void copy_segment(struct row *erow, int start, int end);
 void cut_segment(struct row *erow, int start, int end);
 void put_segment(struct row *erow, int start);
 void put_kill_buffer();
+int count_next_word();
+void cut_word();
+void copy_word();
 
 #endif
