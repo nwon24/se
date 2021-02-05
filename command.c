@@ -134,7 +134,7 @@ void command_mode()
 	
 	case '!':
 		goto_eof();
-		break;		
+		break;
 	default:
 		break;
 	}
@@ -166,6 +166,8 @@ void copy_command()
 	}
 	if (c == 'c')
 		copy_line(win.cy);
+	else if ( c== 'w')
+		copy_word();
 	else
 		return;
 }
@@ -179,6 +181,8 @@ void cut_command()
 	}
 	if (c == 'y')
 		cut_line(win.cy);
+	else if (c == 'w')
+		cut_word();
 	else
 		return;
 }
