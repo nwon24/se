@@ -147,6 +147,10 @@ void command_mode()
 		win.cx = 0;
 		break;
 
+	case 'x':
+		del_char(&win.rows[win.cy], win.cx + 1);
+		break;
+
 	default:
 		break;
 	}
