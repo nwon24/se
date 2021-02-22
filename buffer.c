@@ -104,8 +104,12 @@ void row_to_buff(struct buffer *b)
 	}
 }
 
-void set_status_msg(char *s)
+void set_status_msg(char *fmt, ...)
 {
-	win.next_stat_msg = malloc(strlen(s));
-	strcpy(win.next_stat_msg, s);
+	va_list args;
+	va_start(args, fmt);
+	char status[80];
+	vsnprintf(status, sizeof(status), fmt, args);
+	win.next_stat_msg = malloc(strlen(status));
+	strcpy(win.next_stat_msg, status);
 }
