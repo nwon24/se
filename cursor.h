@@ -13,5 +13,6 @@ void goto_char();
 void goto_char_back();
 void goto_eof();
 void goto_sof();
+void goto_line(int num);
 
 #endif
