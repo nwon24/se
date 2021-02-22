@@ -210,6 +210,8 @@ void del_tab()
 }
 
 /* These two functions copy/cut a specific segment within a line */
+
+/* BEWARE: These functions are slightly buggy! */
 void copy_segment(struct row *erow, int start, int end)
 {
 	if (start < 0 || end > erow->size)
