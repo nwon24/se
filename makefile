@@ -1,4 +1,5 @@
-CC=gcc
+# cc, instead of gcc for compatiblity
+CC=cc
 # In these flags, -fcommon has to be there becasue this project started with an older
 # version of gcc, and it didn't like declaraing global variables in header files with 
 # extern. Instead, extern had to be placed in the source files. When the latest compiler
@@ -9,8 +10,10 @@ TARGET=se
 OBJ=input.o main.o cursor.o buffer.o tty.o edit.o file.o init.o command.o
 
 $(TARGET): $(OBJ)
-	$(CC) $^ -o $@ $(CFLAGS)
+	@echo "LD	$@"
+	@$(CC) $^ -o $@ $(CFLAGS)
 %.o: %.c
-	$(CC) $< -c $(CFLAGS) -o $@
+	@echo "CC	$@"
+	@$(CC) $< -c $(CFLAGS) -o $@
 clean:
 	rm *.o se
