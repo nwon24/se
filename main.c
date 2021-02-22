@@ -24,6 +24,7 @@ void usage()
 	d, D: move forward/backward by one word\n \
 	t, T: move forward/backward to specified char\n \
 	1, !: move to start/end of file\n \
+	L   : display line information\n \
 	ESC: Switch back to command mode\n \
 	In edit mode, basic Emacs-like keybindings work.\n");
 	exit(1);
