@@ -17,7 +17,7 @@ enum {
 	COMMAND_MODE,
 	INSERT_MODE,
 	LINE,
-	SEGMENT,
+	SEGMENT
 };
 
 struct window {
