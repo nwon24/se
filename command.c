@@ -4,6 +4,7 @@
 #include "command.h"
 #include "tty.h"
 #include <ctype.h>
+#include <stdlib.h>
 
 extern struct window win;
 
@@ -151,9 +152,14 @@ void command_mode()
 		del_char(&win.rows[win.cy], win.cx + 1);
 		break;
 
-	case 'G':
+	case 'L':
 		display_line_status();
 		break;
+
+	case 'g':
+		goto_line_command();
+		break;
+
 	default:
 		break;
 	}
@@ -212,5 +218,12 @@ void cut_command()
 void display_line_status()
 {
 	set_status_msg("Total number of lines: %d, current line: %d, percent: %f",
-			win.numrows, win.cy + 1, (double) win.cy / (double) win.numrows * 100);
+			win.numrows, win.cy + 1, (double) (win.cy + 1) / (double) win.numrows * 100);
 }	
+
+void goto_line_command()
+{
+	char c;
+	c = readk();
+	goto_line(c - '0');
+}
