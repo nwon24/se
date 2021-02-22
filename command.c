@@ -151,6 +151,9 @@ void command_mode()
 		del_char(&win.rows[win.cy], win.cx + 1);
 		break;
 
+	case 'G':
+		display_line_status();
+		break;
 	default:
 		break;
 	}
@@ -205,3 +208,9 @@ void cut_command()
 		return;
 	}
 }
+
+void display_line_status()
+{
+	set_status_msg("Total number of lines: %d, current line: %d, percent: %f",
+			win.numrows, win.cy + 1, (double) win.cy / (double) win.numrows * 100);
+}	
