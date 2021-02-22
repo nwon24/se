@@ -195,10 +195,13 @@ void cut_command()
 		cut_segment(&win.rows[win.cy], win.cx, win.cx + (c - '0'));
 		return;
 	}
-	if (c == 'y')
+	if (c == 'y') {
 		cut_line(win.cy);
-	else if (c == 'w')
+		if (win.cy == win.numrows)
+			win.cy--;
+	} else if (c == 'w') {
 		cut_word();
-	else
+	} else {
 		return;
+	}
 }
