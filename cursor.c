@@ -153,3 +153,12 @@ void goto_sof()
 	goto_sol();
 	win.rowoff = 0;
 }
+
+void goto_line(int num)
+{
+	if (num > win.numrows - 1 || num < 0)
+		return;
+	win.cy = num;
+	if (win.cy > win.nrow)
+		win.rowoff = win.rowoff + (win.cy % win.nrow);
+}
