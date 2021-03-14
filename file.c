@@ -29,7 +29,8 @@ char *fgetline(char *file, int pos)
 		line = realloc(line, i + 1);
 	}		
 		
-	line = realloc(line, i + 1);
+	line = realloc(line, i + 2);
+	line[i++] = ' ';
 	line[i] = '\0';
 	fclose(fp);
 	return line;
