@@ -217,17 +217,16 @@ void copy_segment(struct row *erow, int start, int end)
 	if (start < 0 || end > erow->size)
 		return;
 
-	int i, j;
-	j = 0;
-	win.kill_buffer = malloc(end - start);
+	int i;
+	win.kill_buffer = malloc(end - start + 1);
 	if (win.kill_buffer == NULL) {
 		set_status_msg("Kill buffer corrupted, save work and restart program");
 		return;
 	}
-	for (i = start; i <= end; i++) {
-		win.kill_buffer[j] = erow->s[i];
-		j++;
-	}
+	strncpy(win.kill_buffer, &erow->s[start], end - start);
+	for (i = 0; i < (end - start); i++)
+		del_char(erow, win.cx);
+	erow->s[end + 1] = '\0';
 	win.kill_buffer_type = SEGMENT;
 }
 
@@ -236,17 +235,14 @@ void cut_segment(struct row *erow, int start, int end)
 	if (start < 0 || end > erow->size)
 		return;
 
-	int i, j;
-	j = 0;
-	win.kill_buffer = malloc(end - start);
+	int i;
+	win.kill_buffer = malloc(end - start + 1);
 	if (win.kill_buffer == NULL) {
 		set_status_msg("Kill buffer corrupted, save work and restart program");
 		return;
 	}
-	for (i = start; i <= end; i++) {
-		win.kill_buffer[j] = erow->s[i];
-		j++;
-	}
+	strncpy(win.kill_buffer, &erow->s[start], end - start);
+	erow->s[end + 1] = '\0';
 
 	for (i = 0; i < (end - start); i++)
 		del_char(erow, win.cx);
