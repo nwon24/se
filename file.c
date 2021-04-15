@@ -11,7 +11,9 @@ extern struct window win;
 extern struct buffer eb; 
 extern struct stat fs; 
  
-char *fgetline(char *file, int pos) 
+static char *fgetline(char *file, int pos);
+
+static char *fgetline(char *file, int pos) 
 { 
 	FILE *fp = fopen(file, "r"); 
 	char *line = (char *)malloc(sizeof(char)); 
