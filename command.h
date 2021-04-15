@@ -6,12 +6,12 @@
    stay modless or switch between modes to avoid getting hand injuries
    from Emacs-like key bindings */
 
-void command_mode();
-void goto_specified_char();
-void goto_specified_char_backwards();
-void cut_command();
-void copy_command();
-void display_line_status();
-void goto_line_command();
+void command_mode(void);
+void goto_specified_char(void);
+void goto_specified_char_backwards(void);
+void cut_command(void);
+void copy_command(void);
+void display_line_status(void);
+void goto_line_command(void);
 
 #endif
