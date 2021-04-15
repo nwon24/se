@@ -5,6 +5,7 @@
 #include "tty.h"
 #include <ctype.h>
 #include <stdlib.h>
+#include <string.h>
 
 extern struct window win;
 
@@ -224,6 +225,9 @@ void display_line_status()
 void goto_line_command()
 {
 	char c;
-	c = readk();
-	goto_line(c - '0');
+	int i;
+	i = 0;
+	while (isdigit((c = readk())))
+		i += i * 10 + (c - '0');
+	goto_line(i);
 }
