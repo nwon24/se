@@ -22,7 +22,7 @@ void command_mode(void)
 	char *split;
 	switch (c) {
 	/* WARNING: The quit command here does not have protection against unsaved
-           files yet */
+           files yet. UPDATE: fixed. */
 	case 'q':
 		if (win.nsaved && !win.quit_confirm) {
 			char *s = "File has unsaved changes, press q again to quit";
