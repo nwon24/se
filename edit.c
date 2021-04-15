@@ -216,7 +216,7 @@ int check_tab(struct row *erow, int pos)
 }
 
 /* This function deletes the 8 spaces that constitute a tab */
-void del_tab()
+void del_tab(void)
 {
 	int i;
 	for (i = 0; i <= TAB_SIZE - 1; i++) {
@@ -272,7 +272,7 @@ void put_segment(struct row *erow, int start)
 	win.cx += strlen(win.kill_buffer);
 }
 
-void put_kill_buffer()
+void put_kill_buffer(void)
 {
 	if (win.kill_buffer == NULL) {
 		set_status_msg("Nothing in kill buffer");
@@ -285,7 +285,7 @@ void put_kill_buffer()
 		put_segment(&win.rows[win.cy], win.cx);
 }
 
-int count_next_word()
+int count_next_word(void)
 {
 	int i = win.cx;
 	while (win.rows[win.cy].s[i++] != ' ')
@@ -294,14 +294,14 @@ int count_next_word()
 }
 
 /* These functions cut/copy to end of next word. NOTE: Still very buggy! */
-void cut_word()
+void cut_word(void)
 {
 	int i;
 	i = count_next_word();
 	cut_segment(&win.rows[win.cy], win.cx, win.cx + i - 1);
 }
 
-void copy_word()
+void copy_word(void)
 {
 	int i;
 	i = count_next_word();

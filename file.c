@@ -89,7 +89,7 @@ void read_into_struct(char *file)
   It is used if user calls program with file that 
  does not exist yet OR if the file contains nothing */ 
  
-void init_file() 
+void init_file(void) 
 { 
 	win.numrows = 1; 
 	win.rows = malloc(sizeof(struct row)); 
