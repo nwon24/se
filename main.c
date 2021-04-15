@@ -10,7 +10,7 @@
  
 extern struct window win; 
  
-void usage(void) 
+static void usage(void) 
 { 
 	printf("se - A simple text editor\nUSAGE: se [FILE]\n"); 
 	printf("If file does not exist, it will be created.\n"); 

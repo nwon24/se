@@ -8,6 +8,8 @@
 
 extern struct window win;
 
+static void write_line(struct row *erow, FILE *fp);
+
 /* The following function inserts a single
  * character into string s of a row struct at position pos
  */
@@ -64,7 +66,7 @@ void del_char(struct row *erow, int pos)
  * Need a separate function to write a line out since we need to
  * check for tabs.
  */
-void write_line(struct row *erow, FILE *fp)
+static void write_line(struct row *erow, FILE *fp)
 {
 	int i;
 	i = 0;

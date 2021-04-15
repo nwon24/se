@@ -9,6 +9,13 @@
 
 extern struct window win;
 
+static void goto_specified_char(void);
+static void goto_specified_char_backwards(void);
+static void copy_command(void);
+static void cut_command(void);
+static void display_line_status(void);
+static void goto_line_command(void);
+
 void command_mode(void)
 {
 	char c = readk();
@@ -167,7 +174,7 @@ void command_mode(void)
 }
 
 /* Here are some sub routines to be invoked within other commands */
-void goto_specified_char(void)
+static void goto_specified_char(void)
 {
 	char c = readk();
 	if (c == 27)
@@ -175,7 +182,7 @@ void goto_specified_char(void)
 	goto_char(c);
 }
 
-void goto_specified_char_backwards(void)
+static void goto_specified_char_backwards(void)
 {
 	char c = readk();
 	if (c == 27)
@@ -183,7 +190,7 @@ void goto_specified_char_backwards(void)
 	goto_char_back(c);
 }
 
-void copy_command(void)
+static void copy_command(void)
 {
 	char c = readk();
 	if ((isdigit(c)) > 0) {
@@ -198,7 +205,7 @@ void copy_command(void)
 		return;
 }
 
-void cut_command(void)
+static void cut_command(void)
 {
 	char c = readk();
 	if ((isdigit(c)) > 0) {
@@ -216,13 +223,13 @@ void cut_command(void)
 	}
 }
 
-void display_line_status(void)
+static void display_line_status(void)
 {
 	set_status_msg("Total number of lines: %d, current line: %d, percent: %f",
 			win.numrows, win.cy + 1, (double) (win.cy + 1) / (double) win.numrows * 100);
 }	
 
-void goto_line_command(void)
+static void goto_line_command(void)
 {
 	char c;
 	int i;

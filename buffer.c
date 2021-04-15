@@ -7,12 +7,17 @@
   
 extern struct window win;  
 extern struct buffer eb;  
-  
+
+static void status(struct buffer *b, const char *s, ... );
+static void bwrite(struct buffer *b, const char *s, int len);
+static void freeb(struct buffer *b);
+static void row_to_buff(struct buffer *b);
+
 /* Write to the buffer. The function is similar to the system call  
    write(). It appends specified string to b->s, which is the string containting  
    the contents of the buffer, before updating the size as well */  
      
-void bwrite(struct buffer *b, const char *s, int len)  
+static void bwrite(struct buffer *b, const char *s, int len)  
 {  
 	char *n = realloc(b->s, b->size + len);  
 	if (n == NULL) return;  
@@ -41,9 +46,9 @@ void drawb(char *status_msg)
 		status(&eb, "%s", status_msg);  
 	bwrite(&eb, "\033[H", 3);  
 	/* check if we should be reading from the file */  
-	if (win.rfile == 1 && win.nfile == 0) {  
+	if (win.rfile == 1 && win.nfile == 0)
 		read_into_struct(win.fname);  
-	}  
+		
 	row_to_buff(&eb);  
 	char buf[32];  
 	snprintf(buf, sizeof(buf), "\033[%d;%dH", win.absolute_cy + 1, win.cx + 1);  
@@ -53,14 +58,14 @@ void drawb(char *status_msg)
 	freeb(&eb);   
 }  
   
-void freeb(struct buffer *b)  
+static void freeb(struct buffer *b)  
 {  
 	free(b->s);  
 }  
   
 /* status bar in inverted colours */  
 	  
-void status(struct buffer *b, const char *s, ... )  
+static void status(struct buffer *b, const char *s, ... )  
 {  
 	va_list args;  
 	va_start(args, s);  
@@ -88,7 +93,7 @@ void status(struct buffer *b, const char *s, ... )
    the get_nrows() function is faulty and incorrectly reports  
    the number of lines as 0. UPDATE: Solved */  
      
-void row_to_buff(struct buffer *b)  
+static void row_to_buff(struct buffer *b)  
 {  
 	int i, tmp;  
 	if (win.numrows > win.nrow)  

@@ -7,11 +7,5 @@
    from Emacs-like key bindings */
 
 void command_mode(void);
-void goto_specified_char(void);
-void goto_specified_char_backwards(void);
-void cut_command(void);
-void copy_command(void);
-void display_line_status(void);
-void goto_line_command(void);
 
 #endif
