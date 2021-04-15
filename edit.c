@@ -20,7 +20,7 @@ void insert_char(struct row *erow, int pos, char c)
 	   malloc instead. Using realloc can lead to 
 	   invalid pointer errors once we initialise new
 	   rows */
-	char *tmp = malloc(erow->size);
+	char *tmp = malloc(erow->size + 1);
 	strcpy(tmp, erow->s);
 	erow->s = malloc(erow->size + 2);
 	strcpy(erow->s, tmp);
