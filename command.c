@@ -229,5 +229,5 @@ void goto_line_command()
 	i = 0;
 	while (isdigit((c = readk())))
 		i += i * 10 + (c - '0');
-	goto_line(i);
+	goto_line(i - 1);
 }
