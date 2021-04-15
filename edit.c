@@ -60,6 +60,24 @@ void del_char(struct row *erow, int pos)
 	win.nsaved = 1;
 }
 
+/*
+ * Need a separate function to write a line out since we need to
+ * check for tabs.
+ */
+void write_line(struct row *erow, FILE *fp)
+{
+	int i;
+	i = 0;
+	while (erow->s[i]) {
+		if (check_tab(erow, i) == BEG_TAB) {
+			fputc('\t', fp);
+			i += 8;
+		}
+		fputc(erow->s[i++], fp);
+	}
+	fputc('\n', fp);
+}
+
 /* This function writes the contents of the array
    of row structs into a file. If the file name parameter specified
    is the original file name, then the file is simply being saved. If it
@@ -77,10 +95,8 @@ void write_to_disk(char *name)
 	/* Now we loop over the array of row structs and write each of them into
 	   the file, adding a newline character after each one. */
 	   
-	for (i = 0; i <= win.numrows - 1; i++) {
-		fputs( win.rows[i].s, fp);
-		fputs("\n", fp);
-	}
+	for (i = 0; i <= win.numrows - 1; i++)
+		write_line(&win.rows[i], fp);
 	fclose(fp);
 	win.nsaved = 0;
 }
@@ -188,13 +204,13 @@ int check_tab(struct row *erow, int pos)
 	int i;
 	for (i = 1; (erow->s[pos + i] == ' ') && (pos + i < erow->size); i++)
 		;
-	if (i == TAB_SIZE + 1)
+	if (i == TAB_SIZE)
 		return BEG_TAB;
 
 	for (i = 1; (erow->s[pos - i] == ' ') && (pos - i != 0); i++)
 		;
 
-	if (i == TAB_SIZE + 1)
+	if (i == TAB_SIZE)
 		return END_TAB;
 	return NO_TAB;
 }
