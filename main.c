@@ -47,13 +47,12 @@ int main(int argc, char *argv[])
 	} 
 	tty_raw(); 
 	init(argv[1]); 
-	int exist = fexist(win.fname); 
  
 	/* If file is emtpy or it is a new file, we call the init_file function to give it a starting line */ 
 	 
-	if (!exist || win.numrows == 0) { 
+	if (!fexist(win.fname) || win.numrows == 0)
 		init_file(); 
-	} 
+
         /* This can NOT be an infinite loop - there is always some input that exits in either command or
            insert mode. The return at the end is never invoked, since the program is always exited from
            one of the two functions. */ 
